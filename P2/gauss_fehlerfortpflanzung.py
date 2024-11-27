@@ -18,6 +18,8 @@ def evaluate_gaussian_error(file_path, formulas, variables, result_names, result
     """
     
     # Überprüfen, ob die Anzahl der Formeln und Ergebnisnamen übereinstimmt
+    print('Hallo?')
+    
     if len(formulas) != len(result_names):
         raise ValueError("Die Anzahl der Formeln und Ergebnisnamen muss übereinstimmen.")
     
@@ -73,7 +75,7 @@ def evaluate_gaussian_error(file_path, formulas, variables, result_names, result
             row_results.extend([func_value, error_value])
 
             # für Formeloutput
-            gaussian_error_propagation(formula, [(var, var_values.get(var, 0), var_errors.get(var, 0)) for var in variables], result_length, output=True, for_file=True)
+            gaussian_error_propagation(formula, [(var, var_values.get(var, 0), var_errors.get(var, 0)) for var in variables], result_length, output=False, for_file=True)
 
         
         results.append(row_results)
@@ -90,6 +92,7 @@ def evaluate_gaussian_error(file_path, formulas, variables, result_names, result
     # Erstelle den Ausgabedateinamen durch Anhängen des Suffixes
     output_file_name = f"{base_name}_{output_file_suffix}.txt"
     output_file_path = os.path.join(folder_path, output_file_name)
+
     ####################################################################################################
     gaussian_error_propagation(formula, [(var, var_values.get(var, 0), var_errors.get(var, 0)) for var in variables], result_length, output=True, for_file=True)
 
