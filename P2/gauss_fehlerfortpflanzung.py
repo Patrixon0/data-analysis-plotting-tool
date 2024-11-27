@@ -98,3 +98,51 @@ def evaluate_gaussian_error(file_path, formulas, variables, result_names, result
     
     # Gib eine Erfolgsnachricht aus
     print(f"Auswertung abgeschlossen. Ergebnisse wurden in '{output_file_path}' gespeichert.")
+
+
+def gaussian_error_propagation(formula, variables, result_lenght=4, output=True, for_file=False):
+    """
+    Berechnet die Fehlerfortpflanzung nach der Gaußschen Methode und gibt die
+    verwendete Formel sowie das Ergebnis aus.
+    
+    Variablen werden in der Form (Name, Wert, Fehler) notiert bzw. (Name, Wert, 0) falls
+    nicht nach ihnen abgeleitet werden soll.
+    
+    Parameter result_lenght passt die Rundungslänge des Ergebnisses an.
+    """
+    # create lists of variable names for later usage
+    names = [var[0] for var in variables]
+    err_names = [sp.symbols(f'del_{var[0]}') for var in variables]
+    diff_functions, error_sums_n, error_sums_v =np.empty(0), np.empty(0), np.empty(0)
+    val_dict={var[0]: var[1] for var in variables}
+    
+    # calculate formula value
+    formula_value = formula.subs(val_dict).evalf()
+    
+    # differentiate function by each variable and make the sums both as strings as well as value
+    i=0
+    while i<len(names):
+        diff_functions=np.append(diff_functions,sp.diff(formula, names[i]))
+        if variables[i][2]!=0:
+            error_sums_n=np.append(error_sums_n,diff_functions[i]*err_names[i])
+        error_sums_v=np.append(error_sums_v,(diff_functions[i]*variables[i][2])**2)
+        i+=1
+    
+    # create final formula as a string
+    sum_str = [f'({str(sum_n)})**2' for sum_n in error_sums_n]
+    result_str = ' + '.join(sum_str)
+    error_formula=f'sqrt({result_str})'
+    
+    # calculate error value
+    error_result=sp.sqrt(sum([expr.subs(val_dict).evalf() for expr in error_sums_v]))
+    
+    # print output
+    if output:
+        print(f'Formel: {formula}\nWerte: {variables} \n\nFormelwert: {formula_value}\n')
+        print(f'Fehlerformel: {error_formula}')
+        print(f'Fehler: {error_result} \nErgebnis: {round(formula_value,result_lenght)}±{round(error_result,result_lenght)}')
+        return(None)
+    elif for_file:
+        return(formula_value, error_result)
+    else:
+        return(formula_value, error_result)
