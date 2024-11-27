@@ -89,7 +89,9 @@ def evaluate_gaussian_error(file_path, formulas, variables, result_names, result
     # Erstelle den Ausgabedateinamen durch Anhängen des Suffixes
     output_file_name = f"{base_name}_{output_file_suffix}.txt"
     output_file_path = os.path.join(folder_path, output_file_name)
-    
+    ####################################################################################################
+    gaussian_error_propagation(formula, [(var, var_values.get(var, 0), var_errors.get(var, 0)) for var in variables], result_length, output=True, for_file=True)
+
     # Erstelle den Header für die Ausgabedatei
     header_items = []
     for name in result_names:
@@ -140,13 +142,14 @@ def gaussian_error_propagation(formula, variables, result_lenght=4, output=True,
     # calculate error value
     error_result=sp.sqrt(sum([expr.subs(val_dict).evalf() for expr in error_sums_v]))
     
+    if for_file:
+        return(error_formula)
+
     # print output
     if output:
         print(f'Formel: {formula}\nWerte: {variables} \n\nFormelwert: {formula_value}\n')
         print(f'Fehlerformel: {error_formula}')
         print(f'Fehler: {error_result} \nErgebnis: {round(formula_value,result_lenght)}±{round(error_result,result_lenght)}')
         return(None)
-    elif for_file:
-        return(formula_value, error_result)
     else:
         return(formula_value, error_result)
