@@ -71,6 +71,10 @@ def evaluate_gaussian_error(file_path, formulas, variables, result_names, result
             error_value = round(float(error_value), result_length)
             # Füge das Ergebnis der Zeile hinzu
             row_results.extend([func_value, error_value])
+
+            # für Formeloutput
+            gaussian_error_propagation(formula, [(var, var_values.get(var, 0), var_errors.get(var, 0)) for var in variables], result_length, output=True, for_file=True)
+
         
         results.append(row_results)
         
