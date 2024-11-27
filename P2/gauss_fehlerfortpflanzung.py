@@ -2,10 +2,6 @@ import sympy as sp
 import numpy as np
 import os
 
-def printer():
-    print('hello')
-
-
 def evaluate_gaussian_error(file_path, formulas, variables, result_names, result_length=4, feedback=True, output_file_suffix='results'):
     """
     Funktion zur automatischen Auswertung von Messdaten mit Gaußscher Fehlerfortpflanzung.
@@ -21,7 +17,6 @@ def evaluate_gaussian_error(file_path, formulas, variables, result_names, result
     - output_file_suffix: Suffix, das an den Dateinamen der Eingabedatei angehängt wird (default='results').
     """
     
-    print('hello'    )
     # Überprüfen, ob die Anzahl der Formeln und Ergebnisnamen übereinstimmt
     if len(formulas) != len(result_names):
         raise ValueError("Die Anzahl der Formeln und Ergebnisnamen muss übereinstimmen.")
@@ -85,6 +80,7 @@ def evaluate_gaussian_error(file_path, formulas, variables, result_names, result
         
         # Ausgabe für den Nutzer (optional)
         if feedback:
+            print('hello'    )
             print(f"Zeile {i+1}: {row_results}")
     
     # Ermittle den Ordner und den Dateinamen ohne die Dateiendung der ursprünglichen Datei
