@@ -143,6 +143,7 @@ def evaluate_gaussian_error(file_path, formulas, variables, result_names, result
 
         # Ausgabe für den Nutzer (optional)
         if feedback:
+            print('hellodsad'    )
             print(f"Zeile {i+1}: {row_results}")
     
     # Ermittle den Ordner und den Dateinamen ohne die Dateiendung der ursprünglichen Datei
@@ -152,9 +153,6 @@ def evaluate_gaussian_error(file_path, formulas, variables, result_names, result
     # Erstelle den Ausgabedateinamen durch Anhängen des Suffixes
     output_file_name = f"{base_name}_{output_file_suffix}.txt"
     output_file_path = os.path.join(folder_path, output_file_name)
-
-    ####################################################################################################
-    gaussian_error_propagation(formula, [(var, var_values.get(var, 0), var_errors.get(var, 0)) for var in variables], result_length, output=True, for_file=True)
 
     # Erstelle den Header für die Ausgabedatei
     header_items = []
