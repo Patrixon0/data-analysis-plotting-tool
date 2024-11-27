@@ -1,0 +1,12 @@
+{
+    "rainbow_csv.autodetect_separators": [
+        " ",
+        ",",
+        ";",
+        "|",
+        "TAB"
+    ],
+    "[csv (whitespace)]": {
+        "editor.inlayHints.maximumLength": 0
+    }
+}
