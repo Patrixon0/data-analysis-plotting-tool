@@ -97,21 +97,46 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
                 legendlocation='best', y_labels=None, y_markers=None, y_colors=None, 
                 x_decimal_places=1, y_decimal_places=1, Ursprungsgerade=False, custom_datavol_limiter=0,
                 linear_fit=False, focus_point=False, plot_y_inter = False, y_inter_label = None, x_shift = 0, y_shift = 0):
-    
+                
     """
-    Berechnet den gewichteten Mittelwert eines Wertearrays unter Berücksichtigung individueller Fehlerwerte.
+    Diese Funktion ermöglicht die Darstellung von Messdaten mit Fehlerbalken und optionaler linearer Regression.
+    Sie unterstützt mehrere Datensätze und bietet vielfältige Anpassungsmöglichkeiten für die Visualisierung.
 
     Parameter:
-    - z_input (array_like): Array mit den zu gewichtenden Werten.
-    - err_input (array_like): Array mit den Fehlern, die den Werten in z_input zugeordnet sind.
-    - goal (str, optional): Bestimmt den Berechnungsmodus.
-        - 'data weighting': Berechnet den gewichteten Mittelwert der Daten.
-        - 'error': Berechnet den Fehler des Mittelwerts.
-        Standardwert: 'data weighting'
+    - exp_nr (int): Experimentnummer für die Zuordnung.
+    - file_n (str): Name der Datei, die die Daten enthält.
+    - title (str, optional): Titel des Plots. Standard: 'Titel'.
+    - x_label (str, optional): Beschriftung der X-Achse. Standard: 'X-Achse'.
+    - y_label (str, optional): Beschriftung der Y-Achse. Standard: 'Y-Achse'.
+    - save (bool, optional): Ob der Plot gespeichert werden soll. Standard: False.
+    - length (int, optional): Breite des Plots in Zoll. Standard: 15.
+    - height (int, optional): Höhe des Plots in Zoll. Standard: 5.
+    - x_axis (float, optional): Position der vertikalen Linie bei x=0. Standard: 0.
+    - y_axis (float, optional): Position der horizontalen Linie bei y=0. Standard: 0.
+    - result_length (int, optional): Rundung der Ergebnisse auf diese Anzahl Dezimalstellen. Standard: 4.
+    - x_major_ticks (float, optional): Abstand zwischen den Hauptticks der X-Achse. Standard: None.
+    - x_minor_ticks (float, optional): Abstand zwischen den Nebenticks der X-Achse. Standard: None.
+    - y_major_ticks (float, optional): Abstand zwischen den Hauptticks der Y-Achse. Standard: None.
+    - y_minor_ticks (float, optional): Abstand zwischen den Nebenticks der Y-Achse. Standard: None.
+    - legendlocation (str, optional): Position der Legende. Standard: 'best'.
+    - y_labels (list, optional): Bezeichnungen für die Y-Datensätze. Standard: None.
+    - y_markers (list, optional): Marker für die einzelnen Datensätze. Standard: None.
+    - y_colors (list, optional): Farben für die einzelnen Datensätze. Standard: None.
+    - x_decimal_places (int, optional): Anzahl der Dezimalstellen auf der X-Achse. Standard: 1.
+    - y_decimal_places (int, optional): Anzahl der Dezimalstellen auf der Y-Achse. Standard: 1.
+    - Ursprungsgerade (bool, optional): Ob eine Ursprungsgerade (y=x) gezeichnet wird. Standard: False.
+    - custom_datavol_limiter (int, optional): Begrenzung der Anzahl der Datenpunkte. Standard: 0 (keine Begrenzung).
+    - linear_fit (bool, optional): Ob eine lineare Regression durchgeführt wird. Standard: False.
+    - focus_point (bool, optional): Ob der Schwerpunkt mit Fehlerbalken dargestellt wird. Standard: False.
+    - plot_y_inter (bool, optional): Ob der Y-Achsenabschnitt angezeigt wird. Standard: False.
+    - y_inter_label (str, optional): Label für den Y-Achsenabschnitt. Standard: None.
+    - x_shift (float, optional): Horizontaler Offset für die X-Daten. Standard: 0.
+    - y_shift (float, optional): Vertikaler Offset für die Y-Daten. Standard: 0.
 
     Rückgabewert:
-    - mean_val (float): Der berechnete gewichtete Mittelwert oder der Fehler des Mittelwerts.
+    - Ein Plot der Messdaten mit Fehlerbalken, optionalen Regressionslinien und weiteren Visualisierungen.
     """
+
 
     # Daten laden
     data = np.loadtxt(file_n, ndmin=1)
