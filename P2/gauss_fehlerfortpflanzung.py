@@ -2,6 +2,10 @@ import sympy as sp
 import numpy as np
 import os
 
+def printer():
+    print('hello')
+
+
 def evaluate_gaussian_error(file_path, formulas, variables, result_names, result_length=4, feedback=True, output_file_suffix='results'):
     """
     Funktion zur automatischen Auswertung von Messdaten mit Gaußscher Fehlerfortpflanzung.
