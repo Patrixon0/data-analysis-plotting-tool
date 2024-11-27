@@ -5,14 +5,25 @@ import os
 
 def gaussian_error_propagation(formula, variables, result_lenght=4, output=True, for_file=False):
     """
-    Berechnet die Fehlerfortpflanzung nach der Gaußschen Methode und gibt die
-    verwendete Formel sowie das Ergebnis aus.
-    
-    Variablen werden in der Form (Name, Wert, Fehler) notiert bzw. (Name, Wert, 0) falls
-    nicht nach ihnen abgeleitet werden soll.
-    
-    Parameter result_lenght passt die Rundungslänge des Ergebnisses an.
+    Diese Funktion berechnet die Fehlerfortpflanzung nach der Gaußschen Methode basierend auf einer gegebenen Formel 
+    und Variablen. Sie liefert sowohl die berechnete Fehlerformel als auch den numerischen Wert des Fehlers.
+
+    Die Variablen werden als Tupel in der Form (Name, Wert, Fehler) übergeben. Wenn kein Fehler angegeben ist, 
+    sollte (Name, Wert, 0) verwendet werden, um die Variable von der Ableitung auszuschließen.
+
+    Parameter:
+    - formula (sympy.Expr): Die mathematische Formel, deren Fehler berechnet werden soll.
+    - variables (list of tuples): Liste der Variablen als Tupel (Name, Wert, Fehler).
+    - result_lenght (int, optional): Anzahl der Dezimalstellen für die Rundung des Ergebnisses. Standard: 4.
+    - output (bool, optional): Ob die Ergebnisse ausgegeben werden sollen. Standard: True.
+    - for_file (bool, optional): Ob die Fehlerformel als String zurückgegeben werden soll. Standard: False.
+
+    Rückgabewerte:
+    - Bei `output=True`: Gibt die Formel, Werte, Fehlerformel und das Ergebnis (Wert ± Fehler) in der Konsole aus.
+    - Bei `for_file=True`: Gibt die Fehlerformel als String zurück.
+    - Bei `output=False` und `for_file=False`: Gibt das Ergebnis und den Fehler als Tuple (Wert, Fehler) zurück.
     """
+
     # create lists of variable names for later usage
     names = [var[0] for var in variables]
     err_names = [sp.symbols(f'del_{var[0]}') for var in variables]
@@ -55,17 +66,29 @@ def gaussian_error_propagation(formula, variables, result_lenght=4, output=True,
 
 def evaluate_gaussian_error(file_path, formulas, variables, result_names, result_length=4, feedback=True, output_file_suffix='results'):
     """
-    Funktion zur automatischen Auswertung von Messdaten mit Gaußscher Fehlerfortpflanzung.
-    Speichert Ergebnisse als Datei mit dem ursprünglichen Dateinamen plus dem angegebenen Suffix im selben Verzeichnis.
-    
+    Diese Funktion automatisiert die Auswertung von Messdaten mit Gaußscher Fehlerfortpflanzung. 
+    Sie berechnet für eine Liste von Formeln die entsprechenden Werte und Fehler für jeden Datenpunkt 
+    in einer Datei und speichert die Ergebnisse in einer neuen Datei.
+
     Parameter:
-    - file_path: Pfad zur Datei mit den Messdaten.
-    - formulas: Liste von sympy-Formeln, auf die die Daten angewendet werden sollen.
-    - variables: Liste der sympy-Variablennamen, z.B. [x, y, z].
-    - result_names: Liste der Ergebnisvariablen für den Header der Ausgabedatei.
-    - result_length: Anzahl der Dezimalstellen zur Rundung der Ergebnisse (default=4).
-    - feedback: Wenn True, wird der Output für jede Zeile ausgegeben (default=True).
-    - output_file_suffix: Suffix, das an den Dateinamen der Eingabedatei angehängt wird (default='results').
+    - file_path (str): Pfad zur Eingabedatei mit den Messdaten. Jede Variable sollte durch eine 
+      Spalte für Werte und eine für Fehler repräsentiert werden.
+    - formulas (list of sympy.Expr): Liste der Formeln, für die die Werte und Fehler berechnet werden sollen.
+    - variables (list of sympy.Symbol): Liste der Variablen, die in den Formeln verwendet werden.
+    - result_names (list of str): Liste der Namen der Ergebnisse für die Spaltenüberschriften der Ausgabedatei.
+    - result_length (int, optional): Anzahl der Dezimalstellen für die Rundung der Ergebnisse. Standard: 4.
+    - feedback (bool, optional): Wenn True, wird für jede Datenzeile der Fortschritt und die Ergebnisse in der Konsole ausgegeben. Standard: True.
+    - output_file_suffix (str, optional): Suffix, das an den Namen der Ausgabedatei angehängt wird. Standard: 'results'.
+
+    Rückgabewert:
+    - Die Ergebnisse werden in einer neuen Datei im selben Verzeichnis wie die Eingabedatei gespeichert. 
+      Die Datei enthält die berechneten Werte und Fehler für jede Formel und jeden Datenpunkt.
+
+    Hinweise:
+    - Die Funktion überprüft, ob die Anzahl der Formeln mit der Anzahl der Ergebnisnamen übereinstimmt.
+    - Die Variablenwerte und ihre Fehler werden für jede Zeile der Eingabedatei extrahiert und für 
+      die Berechnung der Fehlerfortpflanzung verwendet.
+    - Die Ausgabedatei enthält einen Header mit den Namen der Ergebnisse und ihrer zugehörigen Fehler.
     """
     
 

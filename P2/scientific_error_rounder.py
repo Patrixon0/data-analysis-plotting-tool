@@ -4,14 +4,26 @@ from decimal import Decimal, ROUND_HALF_UP, getcontext
 
 def runden_und_speichern(pfad_zur_eingabedatei, suffix='rounded'):
     """
-    Rundet die Messwerte und Fehler in der angegebenen Datei und speichert sie in einer neuen Datei.
+    Diese Funktion rundet Messwerte und zugehörige Fehler in einer Eingabedatei nach wissenschaftlichen 
+    Kriterien und speichert die gerundeten Ergebnisse in einer neuen Datei.
 
     Parameter:
-    - pfad_zur_eingabedatei (str): Pfad zur Eingabedatei.
-    - suffix (str, optional): Suffix für den Namen der Ausgabedatei (Default: 'rounded').
+    - pfad_zur_eingabedatei (str): Pfad zur Datei mit den Eingabedaten. Die Daten sollten als Paare 
+      von Messwert und Fehler organisiert sein.
+    - suffix (str, optional): Suffix, das an den Namen der Ausgabedatei angehängt wird. Standard: 'rounded'.
 
-    Die Ausgabedatei wird im gleichen Verzeichnis wie die Eingabedatei gespeichert
-    und erhält den Namen 'Dateiname_suffix.txt'.
+    Beschreibung:
+    - Die Funktion liest die Datei Zeile für Zeile ein und interpretiert die Werte als Paare von 
+      Messwerten und Fehlern.
+    - Für jede Paarung wird der Messwert auf dieselbe Dezimalstelle wie der Fehler gerundet, 
+      basierend auf den Regeln der wissenschaftlichen Notation.
+    - Die gerundeten Daten werden in einer neuen Datei gespeichert, die im selben Verzeichnis wie 
+      die Eingabedatei liegt und das angegebene Suffix enthält.
+    - Optional kann eine Kopfzeile (mit einem `#` beginnend) aus der Eingabedatei beibehalten werden.
+
+    Rückgabewert:
+    - Speichert die gerundeten Daten in einer neuen Datei und gibt eine Erfolgsmeldung mit dem 
+      Pfad zur Ausgabedatei aus.
     """
 
 
