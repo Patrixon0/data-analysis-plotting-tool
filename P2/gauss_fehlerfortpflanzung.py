@@ -143,7 +143,6 @@ def evaluate_gaussian_error(file_path, formulas, variables, result_names, result
 
         # Ausgabe für den Nutzer (optional)
         if feedback:
-            print('hellodsad'    )
             print(f"Zeile {i+1}: {row_results}")
     
     # Ermittle den Ordner und den Dateinamen ohne die Dateiendung der ursprünglichen Datei
