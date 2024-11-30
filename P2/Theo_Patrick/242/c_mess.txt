@@ -1,18 +1,18 @@
-t_up_1 t_up_2 t_up_3 t_up_4 t_up_5 t_mid_1 t_mid_2 t_mid_3 t_mid_4 t_mid_5 t_down_1 t_down_2 t_down_3 t_down_4 t_down_5
-5.34 0 0 0 0 1.74 0 0 0 0 1.61 0 0 0 0 
-3.28 3.1 0 0 0 2.95 2.95 0 0 0 0.84 0.91 0 0 0 
-17.31 0 0 0 0 2.15 0 0 0 0 1.98 0 0 0 0 
-2.48 2.87 0 0 0 1.04 0.62 0 0 0 0.44 0.29 0 0 0 
-0.36 0 0 0 0 1.32 0 0 0 0 0.19 0 0 0 0
-4,56 0 0 0 0 3.46 0 0 0 0 1.44 0 0 0 0
-0.44 0.64 0.51 0 0 2.00 1.79 2.33 0 0 0.41 0.32 0 0 0
-9.96 0 0 0 0 9.31 0 0 0 0 0.97 0 0 0 0 
-0.67 0.68 0 0 0 1.59 1.33 0 0 0 0.43 0.39 0 0 0 
-0,66 0 0 0 0 2.77 0 0 0 0 0.41 0 0 0 0 
-0.98 0.87 0 0 0 2.66 2.83 0 0 0 0.62 0.54 0 0 0 
-0.74 0 0 0 0 2.6 0 0 0 0 0.35 0 0 0 0 
-0.92 0 0 0 0 3.21 0 0 0 0 0.86 0 0 0 0 
-3.36 3.31 2.96 3.16 3.11 8.72 10.01 9.79 8.06 9.39 1.8 1.77 2.11 2.03 1.77
-27.22 0 0 0 0 12.88 0 0 0 0 4.51 0 0 0 0 
-15.88 16.72 0 0 0 11.87 12.76 0 0 0 4.35 4.4 0 0 0 
-7.79 7 0 0 0 7.48 6.66 0 0 0 2.54 2.43 0 0 0 
+t_up_1 err_t_up_1 t_up_2 err_t_up_2 t_up_3 err_t_up_3 t_up_4 err_t_up_4 t_up_5 err_t_up_5 t_mid_1 err_t_mid_1 t_mid_2 err_t_mid_2 t_mid_3 err_t_mid_3 t_mid_4 err_t_mid_4 t_mid_5 err_t_mid_5 t_down_1 err_t_down_1 t_down_2 err_t_down_2 t_down_3 err_t_down_3 t_down_4 err_t_down_4 t_down_5 err_t_down_5
+5.34 0.25 None None None None None None None None 1.74 0.25 None None None None None None None None 1.61 0.25 None None None None None None None None 
+3.28 0.25 3.1 0.25 None None None None None None 2.95 0.25 2.95 0.25 None None None None None None 0.84 0.25 0.91 0.25 None None None None None None 
+17.31 0.25 None None None None None None None None 2.15 0.25 None None None None None None None None 1.98 0.25 None None None None None None None None 
+2.48 0.25 2.87 0.25 None None None None None None 1.04 0.25 0.62 0.25 None None None None None None 0.44 0.25 0.29 0.25 None None None None None None 
+0.36 0.25 None None None None None None None None 1.32 0.25 None None None None None None None None 0.19 0.25 None None None None None None None None
+4.56 0.25 None None None None None None None None 3.46 0.25 None None None None None None None None 1.44 0.25 None None None None None None None None
+0.44 0.25 0.64 0.25 0.51 0.25 None None None None 2.00 0.25 1.79 0.25 2.33 0.25 None None None None 0.41 0.25 0.32 0.25 None None None None None None
+9.96 0.25 None None None None None None None None 9.31 0.25 None None None None None None None None 0.97 0.25 None None None None None None None None 
+0.67 0.25 0.68 0.25 None None None None None None 1.59 0.25 1.33 0.25 None None None None None None 0.43 0.25 0.39 0.25 None None None None None None 
+0.66 0.25 None None None None None None None None 2.77 0.25 None None None None None None None None 0.41 0.25 None None None None None None None None 
+0.98 0.25 0.87 0.25 None None None None None None 2.66 0.25 2.83 0.25 None None None None None None 0.62 0.25 0.54 0.25 None None None None None None 
+0.74 0.25 None None None None None None None None 2.6 0.25 None None None None None None None None 0.35 0.25 None None None None None None None None 
+0.92 0.25 None None None None None None None None 3.21 0.25 None None None None None None None None 0.86 0.25 None None None None None None None None 
+3.36 0.25 3.31 0.25 2.96 0.25 3.16 0.25 3.11 0.25 8.72 0.25 10.01 0.25 9.79 0.25 8.06 0.25 9.39 0.25 1.8 0.25 1.77 0.25 2.11 0.25 2.03 0.25 1.77 0.25
+27.22 0.25 None None None None None None None None 12.88 0.25 None None None None None None None None 4.51 0.25 None None None None None None None None 
+15.88 0.25 16.72 0.25 None None None None None None 11.87 0.25 12.76 0.25 None None None None None None 4.35 0.25 4.4 0.25 None None None None None None 
+7.79 0.25 7 0.25 None None None None None None 7.48 0.25 6.66 0.25 None None None None None None 2.54 0.25 2.43 0.25 None None None None None None 
