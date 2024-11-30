@@ -222,8 +222,10 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
   
                 
             # Berechnung der Regressionsgeraden
-            # x_line = np.linspace(min(x_val_limited), max(x_val_limited), 100)
-            x_line = np.linspace(0, max(x_val_limited), 100)
+            if plot_y_inter == False: overall_min_x = min(overall_min_x, min(x_val_limited)) 
+            else: overall_min_x = 0
+            print(overall_min_x)
+            x_line = np.linspace(overall_min_x, max(x_val_limited), 100)
             best_fit = grad * x_line + y_inter
             stan_dev_1 = (grad + grad_err) * (x_line - x_mean) + y_mean
             stan_dev_2 = (grad - grad_err) * (x_line - x_mean) + y_mean
@@ -281,7 +283,7 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
     ax.legend(loc=legendlocation)
     
     if save:
-        plt.savefig(f'{exp_nr}/_gf_{file_n}.png', bbox_inches='tight')
+        plt.savefig(f'{exp_nr}_gf_{file_n}.png', bbox_inches='tight')
     
     plt.show()
 
