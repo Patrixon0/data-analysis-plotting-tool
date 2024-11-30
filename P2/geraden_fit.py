@@ -254,7 +254,7 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
     overall_max_x = max(overall_max_x, max(x_val_limited))
     if Ursprungsgerade != None :
         line_range = np.linspace(0, overall_max_x, 100)
-        plt.plot(line_range, Ursprungsgerade * line_range, color="red", linestyle="--", label="Ursprungsgerade (y=x)")
+        plt.plot(line_range, Ursprungsgerade * line_range, color="red", linestyle="--", label=f"Ursprungsgerade (y={Ursprungsgerade}*x)")
     
     # Haupt- und Nebenticks setzen
     ax.xaxis.set_major_locator(MultipleLocator(x_major_ticks))
