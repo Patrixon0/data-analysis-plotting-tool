@@ -179,9 +179,10 @@ def evaluate_gaussian_error(file_path, formulas, variables, result_names, result
     # Erstelle den Header für die Ausgabedatei
     header_items = []
     for name in result_names:
-        header_items.extend([name, f"err_{name}"])
-    # Anpassung: Keine Leerzeichen nach '#' und Leerzeichen als Trennzeichen
-    header = '#' + ' '.join(header_items)
+        header_items.append(name)
+        header_items.append(f"err_{name}")
+    # Keine Leerzeichen nach '#' und Leerzeichen als Trennzeichen
+    header = f"#{' '.join(header_items)}"
     
     # Speichere die Ergebnisse in der Datei im gleichen Ordner wie die ursprüngliche Datei
     np.savetxt(output_file_path, results, fmt=f'%.{result_length}f', header=header, delimiter=' ')
