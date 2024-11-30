@@ -95,7 +95,7 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
                 save=False, length=15, height=5, x_axis=0, y_axis=0, result_length=4, 
                 x_major_ticks=None, x_minor_ticks=None, y_major_ticks=None, y_minor_ticks=None,
                 legendlocation='best', y_labels=None, y_markers=None, y_colors=None, 
-                x_decimal_places=1, y_decimal_places=1, Ursprungsgerade=False, custom_datavol_limiter=0,
+                x_decimal_places=1, y_decimal_places=1, Ursprungsgerade=None, custom_datavol_limiter=0,
                 linear_fit=False, focus_point=False, plot_y_inter = False, y_inter_label = None, x_shift = 0, y_shift = 0):
                 
     """
@@ -124,7 +124,7 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
     - y_colors (list, optional): Farben für die einzelnen Datensätze. Standard: None.
     - x_decimal_places (int, optional): Anzahl der Dezimalstellen auf der X-Achse. Standard: 1.
     - y_decimal_places (int, optional): Anzahl der Dezimalstellen auf der Y-Achse. Standard: 1.
-    - Ursprungsgerade (bool, optional): Ob eine Ursprungsgerade (y=x) gezeichnet wird. Standard: False.
+    - Ursprungsgerade (float, optional): Erstellt Ursprungsgerade mit Steigung Ursprungsgerade
     - custom_datavol_limiter (int, optional): Begrenzung der Anzahl der Datenpunkte. Standard: 0 (keine Begrenzung).
     - linear_fit (bool, optional): Ob eine lineare Regression durchgeführt wird. Standard: False.
     - focus_point (bool, optional): Ob der Schwerpunkt mit Fehlerbalken dargestellt wird. Standard: False.
@@ -181,10 +181,6 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
         y_err_limited = y_err[:limit]
     
         n = len(x_val_limited)
-    
-        # Aktualisieren der Grenzen für die Ursprungsgerade
-        overall_min_x = min(overall_min_x, min(x_val_limited))
-        overall_max_x = max(overall_max_x, max(x_val_limited))
     
         label = y_labels[i] if i < len(y_labels) else f'Datensatz {i+1}'
         marker = y_markers[i % len(y_markers)]
@@ -255,9 +251,10 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
             print(f"Y-Achsenabschnitt: {y_inter_str} ± {y_inter_err_str}\n")
     
     # Ursprungsgerade auf begrenzte Werte anpassen
-    if Ursprungsgerade:
-        line_range = np.linspace(overall_min_x, overall_max_x, 100)
-        plt.plot(line_range, line_range, color="red", linestyle="--", label="Ursprungsgerade (y=x)")
+    overall_max_x = max(overall_max_x, max(x_val_limited))
+    if Ursprungsgerade != None :
+        line_range = np.linspace(0, overall_max_x, 100)
+        plt.plot(line_range, Ursprungsgerade * line_range, color="red", linestyle="--", label="Ursprungsgerade (y=x)")
     
     # Haupt- und Nebenticks setzen
     ax.xaxis.set_major_locator(MultipleLocator(x_major_ticks))
