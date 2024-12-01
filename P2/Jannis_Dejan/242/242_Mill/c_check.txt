@@ -1,0 +1,244 @@
+
+Zeile 1:
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 6.68, 0.3], [t_mid_mean, 4.57, 0.3], [t_down_mean, 2.54, 0.3]] 
+
+Formelwert: 0.0000387273145777571
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.0000110141864870844 
+Ergebnis: 0.0±0.0
+
+Zeile 2:
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 1.07, 0.3], [t_mid_mean, 4.87, 0.3], [t_down_mean, 0.75, 0.3]] 
+
+Formelwert: 0.00000238474479776366
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.000118952935798264 
+Ergebnis: 0.0±0.0001
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 1.19, 0.3], [t_mid_mean, 5.98, 0.3], [t_down_mean, 0.97, 0.3]] 
+
+Formelwert: 0.0000287712919874704
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.0000766349737153847 
+Ergebnis: 0.0±0.0001
+
+Zeile 3:
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 1.29, 0.3], [t_mid_mean, 1.27, 0.3], [t_down_mean, 0.27, 0.3]] 
+
+Formelwert: -0.000270741351129558
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.000827187339965058 
+Ergebnis: -0.0003±0.0008
+
+Zeile 4:
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 1.12, 0.3], [t_mid_mean, 2.59, 0.3], [t_down_mean, 0.58, 0.3]] 
+
+Formelwert: -0.0000118160031953136
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.000185525853282345 
+Ergebnis: 0.0±0.0002
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 0.76, 0.3], [t_mid_mean, 2.72, 0.3], [t_down_mean, 1.07, 0.3]] 
+
+Formelwert: 0.000223300830415787
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.000117474104544741 
+Ergebnis: 0.0002±0.0001
+
+Zeile 5:
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 0.75, 0.3], [t_mid_mean, 2.58, 0.3], [t_down_mean, 0.52, 0.3]] 
+
+Formelwert: 0.0000370900417412045
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.000246859270457943 
+Ergebnis: 0.0±0.0002
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 0.69, 0.3], [t_mid_mean, 3.63, 0.3], [t_down_mean, 1.0, 0.3]] 
+
+Formelwert: 0.000200047909929333
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.000139874834209650 
+Ergebnis: 0.0002±0.0001
+
+Zeile 6:
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 1.22, 0.3], [t_mid_mean, 3.46, 0.3], [t_down_mean, 0.91, 0.3]] 
+
+Formelwert: 0.0000597611428654734
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.0000835179100442269 
+Ergebnis: 0.0001±0.0001
+
+Zeile 7:
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 0.54, 0.3], [t_mid_mean, 4.81, 0.3], [t_down_mean, 0.6, 0.3]] 
+
+Formelwert: 0.000120197120197120
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.000264844103486028 
+Ergebnis: 0.0001±0.0003
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 0.53, 0.3], [t_mid_mean, 4.07, 0.3], [t_down_mean, 1.16, 0.3]] 
+
+Formelwert: 0.000303224795742688
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.000218323892120898 
+Ergebnis: 0.0003±0.0002
+
+Zeile 8:
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 1.9, 0.3], [t_mid_mean, 4.56, 0.3], [t_down_mean, 0.52, 0.3]] 
+
+Formelwert: -0.000191632928475034
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.000222589907437701 
+Ergebnis: -0.0002±0.0002
+
+Zeile 9:
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 0.68, 0.3], [t_mid_mean, 4.59, 0.3], [t_down_mean, 0.72, 0.3]] 
+
+Formelwert: 0.000103485838779956
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.000173969664784013 
+Ergebnis: 0.0001±0.0002
+
+Zeile 10:
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 1.61, 0.3], [t_mid_mean, 5.48, 0.3], [t_down_mean, 0.46, 0.3]] 
+
+Formelwert: -0.000237566305481253
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.000284525153903355 
+Ergebnis: -0.0002±0.0003
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 0.27, 0.3], [t_mid_mean, 4.62, 0.3], [t_down_mean, 0.33, 0.3]] 
+
+Formelwert: 0.000221260221260221
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.000990452752976334 
+Ergebnis: 0.0002±0.001
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 0.74, 0.3], [t_mid_mean, 4.12, 0.3], [t_down_mean, 0.58, 0.3]] 
+
+Formelwert: 0.0000225300627041504
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.000209445259287846 
+Ergebnis: 0.0±0.0002
+
+Zeile 11:
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 0.66, 0.3], [t_mid_mean, 5.05, 0.3], [t_down_mean, 0.84, 0.3]] 
+
+Formelwert: 0.000144142985727144
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.000161942954275110 
+Ergebnis: 0.0001±0.0002
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 1.25, 0.3], [t_mid_mean, 4.2, 0.3], [t_down_mean, 0.46, 0.3]] 
+
+Formelwert: -0.000179544513457557
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.000286223054933958 
+Ergebnis: -0.0002±0.0003
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 1.04, 0.3], [t_mid_mean, 5.4, 0.3], [t_down_mean, 1.21, 0.3]] 
+
+Formelwert: 0.000101092510183419
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.0000690916546644418 
+Ergebnis: 0.0001±0.0001
+
+Zeile 12:
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 4.74, 0.3], [t_mid_mean, 1.03, 0.3], [t_down_mean, 0.4, 0.3]] 
+
+Formelwert: -0.0000694563926098890
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.000391696751486937 
+Ergebnis: -0.0000±0.0004
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 3.38, 0.3], [t_mid_mean, 1.35, 0.3], [t_down_mean, 0.35, 0.3]] 
+
+Formelwert: -0.000215960677499139
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.000494229710519225 
+Ergebnis: -0.0002±0.0005
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 1.12, 0.3], [t_mid_mean, 1.21, 0.3], [t_down_mean, 0.32, 0.3]] 
+
+Formelwert: -0.000115850059031877
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.000593572510535594 
+Ergebnis: -0.0001±0.0006
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 1.42, 0.3], [t_mid_mean, 1.29, 0.3], [t_down_mean, 0.38, 0.3]] 
+
+Formelwert: -0.0000753931996713042
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.000422771844075942 
+Ergebnis: -0.0000±0.0004
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 0.78, 0.3], [t_mid_mean, 1.26, 0.3], [t_down_mean, 0.4, 0.3]] 
+
+Formelwert: 0.0000738705738705739
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.000395049343449079 
+Ergebnis: 0.0001±0.0004
+
+Zeile 13:
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 1.36, 0.3], [t_mid_mean, 2.19, 0.3], [t_down_mean, 0.61, 0.3]] 
+
+Formelwert: 0.00000183837289687941
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.000166369835046945 
+Ergebnis: 0.0±0.0002
+
+Zeile 14:
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 2.35, 0.3], [t_mid_mean, 4.09, 0.3], [t_down_mean, 1.09, 0.3]] 
+
+Formelwert: -5.80344550941690E-7
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.0000521520009305741 
+Ergebnis: 0.0±0.0001
+Formel: 0.0002/t_up_mean + 0.0004/t_mid_mean - 0.0002/t_down_mean
+Werte: [[t_up_mean, 1.47, 0.3], [t_mid_mean, 5.33, 0.3], [t_down_mean, 1.03, 0.3]] 
+
+Formelwert: 0.0000169265688023511
+
+Fehlerformel: sqrt((-0.0002*del_t_up_mean/t_up_mean**2)**2 + (-0.0004*del_t_mid_mean/t_mid_mean**2)**2 + (0.0002*del_t_down_mean/t_down_mean**2)**2)
+Fehler: 0.0000631455313075165 
+Ergebnis: 0.0±0.0001
