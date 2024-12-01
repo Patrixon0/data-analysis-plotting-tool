@@ -1,0 +1,15 @@
+Formelwert_1	Fehler_1	Formelwert_2	Fehler_2	Formelwert_3	Fehler_3	Formelwert_4	Fehler_4	Formelwert_5	Fehler_5
+0.000039	0.000011	None	None	None	None	None	None	None	None
+0.000002	0.000119	0.000029	0.000077	None	None	None	None	None	None
+-0.000271	0.000827	None	None	None	None	None	None	None	None
+-0.000012	0.000186	0.000223	0.000117	None	None	None	None	None	None
+0.000037	0.000247	0.000200	0.000140	None	None	None	None	None	None
+0.000060	0.000084	None	None	None	None	None	None	None	None
+0.000120	0.000265	0.000303	0.000218	None	None	None	None	None	None
+-0.000192	0.000223	None	None	None	None	None	None	None	None
+0.000103	0.000174	None	None	None	None	None	None	None	None
+-0.000238	0.000285	0.000221	0.000990	0.000023	0.000209	None	None	None	None
+0.000144	0.000162	-0.000180	0.000286	0.000101	0.000069	None	None	None	None
+-0.000069	0.000392	-0.000216	0.000494	-0.000116	0.000594	-0.000075	0.000423	0.000074	0.000395
+0.000002	0.000166	None	None	None	None	None	None	None	None
+-0.000001	0.000052	0.000017	0.000063	None	None	None	None	None	None
