@@ -96,7 +96,7 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
                 x_major_ticks=None, x_minor_ticks=None, y_major_ticks=None, y_minor_ticks=None,
                 legendlocation='best', y_labels=None, y_markers=None, y_colors=None, 
                 x_decimal_places=1, y_decimal_places=1, scientific_limits=(-3,3), Ursprungsgerade=None, custom_datavol_limiter=0,
-                linear_fit=False, focus_point=False, plot_y_inter = False, y_inter_label = None, x_shift = 0, y_shift = 0):
+                linear_fit=False, focus_point=False, plot_y_inter = False, y_inter_label = None, x_shift = 0, y_shift = 0, plot_errors = True):
                 
     """
     Diese Funktion ermöglicht die Darstellung von Messdaten mit Fehlerbalken und optionaler linearer Regression.
@@ -132,6 +132,7 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
     - y_inter_label (str, optional): Label für den Y-Achsenabschnitt. Standard: None.
     - x_shift (float, optional): Horizontaler Offset für die X-Daten. Standard: 0.
     - y_shift (float, optional): Vertikaler Offset für die Y-Daten. Standard: 0.
+    - plot_errors (bool, optional): Ob Fehler auch geplotted werden. Standart: True
 
     Rückgabewert:
     - Ein Plot der Messdaten mit Fehlerbalken, optionalen Regressionslinien und weiteren Visualisierungen.
@@ -150,7 +151,7 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
     
     # Labels, Marker und Farben vorbereiten
     if y_labels is None:
-        y_labels = [f'Datensatz {i+1}' for i in range(n_datasets)]
+        y_labels = [f'{i+1}' for i in range(n_datasets)]
     if y_markers is None:
         y_markers = ['o', 's', 'D', '^', 'v', '<', '>', 'p', '*', 'h', '+', 'x', 'd']
     if y_colors is None:
@@ -181,11 +182,15 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
     
         n = len(x_val_limited)
     
-        label = y_labels[i] if i < len(y_labels) else f'Datensatz {i+1}'
+        if y_labels != '':
+            label = y_labels[i] if i < len(y_labels) else f'Datensatz {i+1}'
         marker = y_markers[i % len(y_markers)]
         color = y_colors[i % len(y_colors)]
-        ax.errorbar(x_val_limited, y_val_limited, xerr=x_err_limited, yerr=y_err_limited,
-                    marker=marker, capsize=3, linestyle='none', label=label, color=color)
+        if plot_errors == True:
+            ax.errorbar(x_val_limited, y_val_limited, xerr=x_err_limited, yerr=y_err_limited,
+                marker=marker, capsize=3, linestyle='none', label=label, color=color)
+        else:
+            ax.plot(x_val_limited, y_val_limited, marker=marker, linestyle='none', label=label, color=color)
     
         if linear_fit:
             # Berechnungen der Ausgleichsgeraden -unsicherheit und des Mittelwerts 
@@ -216,7 +221,11 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
 
             # Schwerpunkt plotten
             if focus_point:
-                ax.errorbar(x_mean, y_mean, yerr=y_err_mean, xerr=x_mean_err, marker='x', color='red', capsize=3,
+                if plot_errors == True:
+                    ax.errorbar(x_mean, y_mean, yerr=y_err_mean, xerr=x_mean_err, marker='x', color='red', capsize=3,
+                            label=f'Schwerpunkt {label}\n({x_mean_str}±{x_mean_err_str}, {y_mean_str}±{y_mean_err_str})')  
+                else:
+                    ax.plot(x_mean, y_mean, marker='x', color='red',
                             label=f'Schwerpunkt {label}\n({x_mean_str}±{x_mean_err_str}, {y_mean_str}±{y_mean_err_str})')    
   
                 
@@ -233,16 +242,25 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
             ax.plot(x_line, best_fit, color=color, label=f'Fit {label}: m={grad_str}±{grad_err_str}')
 
             # Unsicherheitsgeraden plotten
-            ax.plot(x_line, stan_dev_1, color=color, linestyle=':', label=f'Unsicherheit {label}')
-            ax.plot(x_line, stan_dev_2, color=color, linestyle=':')
+            if plot_errors == True:
+                ax.plot(x_line, stan_dev_1, color=color, linestyle=':', label=f'Unsicherheit {label}')
+                ax.plot(x_line, stan_dev_2, color=color, linestyle=':')
     
             # Y-Achsenabschnitt plotten
             if plot_y_inter:
                 if y_inter_label == None:
-                    ax.errorbar(0, y_inter, yerr=y_inter_err, marker='x', color='#ffc130', capsize=3,
-                                label=f'Y-Achenabschnitt {label}\n({y_inter_str}±{y_inter_err_str})')   
+                    if plot_errors == True:
+                        ax.errorbar(0, y_inter, yerr=y_inter_err, marker='x', color='#ffc130', capsize=3,
+                                label=f'Y-Achenabschnitt {label}\n({y_inter_str}±{y_inter_err_str})')  
+                    else:
+                        ax.plot(0, y_inter, marker='x', color='#ffc130',
+                                label=f'Y-Achenabschnitt {label}\n({y_inter_str}±{y_inter_err_str})')  
                 else:  
-                    ax.errorbar(0, y_inter, yerr=y_inter_err, marker='x', color='#ffc130', capsize=3,
+                    if plot_errors == True:
+                        ax.errorbar(0, y_inter, yerr=y_inter_err, marker='x', color='#ffc130', capsize=3,
+                                label=f'Y-Achenabschnitt {y_inter_label}\n({y_inter_str}±{y_inter_err_str})') 
+                    else:
+                        ax.plot(0, y_inter, marker='x', color='#ffc130', 
                                 label=f'Y-Achenabschnitt {y_inter_label}\n({y_inter_str}±{y_inter_err_str})') 
                 
             # Fit-Ergebnisse ausgeben
@@ -256,13 +274,6 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
     if Ursprungsgerade != None :
         line_range = np.linspace(0, overall_max_x, 100)
         plt.plot(line_range, Ursprungsgerade * line_range, color="red", linestyle="--", label=f"Ursprungsgerade (y={Ursprungsgerade}*x)")
-    
-    # Haupt- und Nebenticks setzen
-    ax.xaxis.set_major_locator(MultipleLocator(x_major_ticks))
-    ax.xaxis.set_minor_locator(MultipleLocator(x_minor_ticks))
-    ax.yaxis.set_major_locator(MultipleLocator(y_major_ticks))
-    ax.yaxis.set_minor_locator(MultipleLocator(y_minor_ticks))
-
 
     # Anzahl der Dezimalstellen für die Achsenlabels festlegen
     x_format_string = f'%.{x_decimal_places}f'
@@ -271,14 +282,20 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
     ax.yaxis.set_major_formatter(FormatStrFormatter(y_format_string))
     
     # Haupt- und Nebenticks setzen
-    ax.xaxis.set_major_locator(MultipleLocator(x_major_ticks))
-    ax.xaxis.set_minor_locator(MultipleLocator(x_minor_ticks))
-    ax.yaxis.set_major_locator(MultipleLocator(y_major_ticks))
-    ax.yaxis.set_minor_locator(MultipleLocator(y_minor_ticks))
+    if x_major_ticks != None:
+        ax.xaxis.set_major_locator(MultipleLocator(x_major_ticks))
+    if x_minor_ticks != None:
+        ax.xaxis.set_minor_locator(MultipleLocator(x_minor_ticks))
+    if y_major_ticks != None:
+        ax.yaxis.set_major_locator(MultipleLocator(y_major_ticks))
+    if y_minor_ticks != None:
+        ax.yaxis.set_minor_locator(MultipleLocator(y_minor_ticks))
 
     # Rasterlinien anpassen
-    ax.grid(which='major', color='grey', linestyle='-', linewidth=0.75)
-    ax.grid(which='minor', color='lightgrey', linestyle=':', linewidth=0.5)
+    if x_major_ticks != None or y_major_ticks != None:
+        ax.grid(which='major', color='grey', linestyle='-', linewidth=0.75)
+    if x_minor_ticks != None or y_minor_ticks != None:
+        ax.grid(which='minor', color='lightgrey', linestyle=':', linewidth=0.5)
 
     # Wissenschaftliche Notation für Ticks aktivieren
     formatter = ScalarFormatter(useMathText=True)
