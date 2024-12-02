@@ -55,5 +55,5 @@ def mean_calc(z_input, err_input, goal='data weighting'):
     if goal == 'data weighting':
         mean_val = mean_1 / mean_2
     elif goal == 'error':
-        mean_val = np.sqrt(1 / mean_2)
+        mean_val = np.sqrt(1 / float(mean_2))
     return mean_val
