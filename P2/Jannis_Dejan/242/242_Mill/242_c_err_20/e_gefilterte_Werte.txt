@@ -1,0 +1,17 @@
+#tu1 errtu1 tu2 errtu2 tu3 errtu3 tu4 errtu4 tu5 errtu5 t01 errt01 t02 errt02 t03 errt03 t04 errt04 t05 errt05 td1 errtd1 td2 errtd2 td3 errtd3 td4 errtd4 td5 errtd5
+1.07 0.2 None 0.2 None 0.2 None 0.2 None 0.2 4.87 0.2 None 0.2 None 0.2 None 0.2 None 0.2 0.75 0.2 None 0.2 None 0.2 None 0.2 None 0.2
+1.19 0.2 None 0.2 None 0.2 None 0.2 None 0.2 5.98 0.2 None 0.2 None 0.2 None 0.2 None 0.2 0.97 0.2 None 0.2 None 0.2 None 0.2 None 0.2
+1.29 0.2 None 0.2 None 0.2 None 0.2 None 0.2 1.27 0.2 None 0.2 None 0.2 None 0.2 None 0.2 0.27 0.2 None 0.2 None 0.2 None 0.2 None 0.2
+1.12 0.2 None 0.2 None 0.2 None 0.2 None 0.2 2.59 0.2 2.72 0.2 None 0.2 None 0.2 None 0.2 0.58 0.2 1.07 0.2 None 0.2 None 0.2 None 0.2
+0.76 0.2 None 0.2 None 0.2 None 0.2 None 0.2 None 0.2 None 0.2 None 0.2 None 0.2 None 0.2 None 0.2 None 0.2 None 0.2 None 0.2 None 0.2
+0.75 0.2 None 0.2 None 0.2 None 0.2 None 0.2 2.58 0.2 None 0.2 None 0.2 None 0.2 None 0.2 0.52 0.2 1.00 0.2 None 0.2 None 0.2 None 0.2
+0.69 0.2 None 0.2 None 0.2 None 0.2 None 0.2 3.63 0.2 None 0.2 None 0.2 None 0.2 None 0.2 None 0.2 None 0.2 None 0.2 None 0.2 None 0.2
+0.54 0.2 0.53 0.2 None 0.2 None 0.2 None 0.2 4.81 0.2 4.07 0.2 None 0.2 None 0.2 None 0.2 0.60 0.2 1.16 0.2 None 0.2 None 0.2 None 0.2
+0.68 0.2 None 0.2 None 0.2 None 0.2 None 0.2 4.59 0.2 None 0.2 None 0.2 None 0.2 None 0.2 0.72 0.2 None 0.2 None 0.2 None 0.2 None 0.2
+4.74 0.2 None 0.2 None 0.2 None 0.2 None 0.2 1.03 0.2 None 0.2 None 0.2 None 0.2 None 0.2 0.40 0.2 None 0.2 None 0.2 None 0.2 None 0.2
+3.38 0.2 None 0.2 None 0.2 None 0.2 None 0.2 1.35 0.2 None 0.2 None 0.2 None 0.2 None 0.2 0.35 0.2 None 0.2 None 0.2 None 0.2 None 0.2
+1.12 0.2 1.42 0.2 None 0.2 None 0.2 None 0.2 1.21 0.2 1.29 0.2 None 0.2 None 0.2 None 0.2 0.32 0.2 0.38 0.2 None 0.2 None 0.2 None 0.2
+0.78 0.2 None 0.2 None 0.2 None 0.2 None 0.2 1.26 0.2 None 0.2 None 0.2 None 0.2 None 0.2 0.40 0.2 None 0.2 None 0.2 None 0.2 None 0.2
+1.36 0.2 None 0.2 None 0.2 None 0.2 None 0.2 2.19 0.2 None 0.2 None 0.2 None 0.2 None 0.2 0.61 0.2 None 0.2 None 0.2 None 0.2 None 0.2
+2.35 0.2 None 0.2 None 0.2 None 0.2 None 0.2 4.09 0.2 None 0.2 None 0.2 None 0.2 None 0.2 1.09 0.2 None 0.2 None 0.2 None 0.2 None 0.2
+1.47 0.2 None 0.2 None 0.2 None 0.2 None 0.2 5.33 0.2 None 0.2 None 0.2 None 0.2 None 0.2 1.03 0.2 None 0.2 None 0.2 None 0.2 None 0.2
