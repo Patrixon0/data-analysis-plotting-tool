@@ -1,4 +1,4 @@
-t_up_mean	t_up_err	t_mid_mean	t_mid_err	t_down_mean	t_down_err
+#t_up_mean	t_up_err	t_mid_mean	t_mid_err	t_down_mean	t_down_err
 3.1900	0.1768	2.9500	0.1768	0.8750	0.1768
 2.4800	0.2500	1.0400	0.2500	0.4400	0.2500
 0.3800	0.2500	1.3200	0.2500	0.1900	0.2500
