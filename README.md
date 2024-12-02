@@ -1,1 +1,1 @@
-﻿# data-analasys-plotting-tool
+﻿# data-analysis-plotting-tool
