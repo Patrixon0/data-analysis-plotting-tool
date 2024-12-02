@@ -95,7 +95,7 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
                 save=False, length=15, height=5, x_axis=0, y_axis=0, result_length=4, 
                 x_major_ticks=None, x_minor_ticks=None, y_major_ticks=None, y_minor_ticks=None,
                 legendlocation='best', y_labels=None, y_markers=None, y_colors=None, 
-                x_decimal_places=1, y_decimal_places=1, schientific_limits=(-3,3), Ursprungsgerade=None, custom_datavol_limiter=0,
+                x_decimal_places=1, y_decimal_places=1, scientific_limits=(-3,3), Ursprungsgerade=None, custom_datavol_limiter=0,
                 linear_fit=False, focus_point=False, plot_y_inter = False, y_inter_label = None, x_shift = 0, y_shift = 0):
                 
     """
@@ -136,8 +136,6 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
     Rückgabewert:
     - Ein Plot der Messdaten mit Fehlerbalken, optionalen Regressionslinien und weiteren Visualisierungen.
     """
-
-    print('Test 1')
 
     # Daten laden
     data = np.loadtxt(file_n, ndmin=1)
@@ -278,18 +276,17 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
     ax.yaxis.set_major_locator(MultipleLocator(y_major_ticks))
     ax.yaxis.set_minor_locator(MultipleLocator(y_minor_ticks))
 
-    # Wissenschaftliche Notation für Ticks aktivieren
-    formatter = ScalarFormatter(useMathText=True)
-    formatter.set_scientific(True)
-    formatter.set_powerlimits(schientific_limits)
-
-    ax.xaxis.set_major_formatter(formatter)
-    ax.yaxis.set_major_formatter(formatter)
-
-    
     # Rasterlinien anpassen
     ax.grid(which='major', color='grey', linestyle='-', linewidth=0.75)
     ax.grid(which='minor', color='lightgrey', linestyle=':', linewidth=0.5)
+
+    # Wissenschaftliche Notation für Ticks aktivieren
+    formatter = ScalarFormatter(useMathText=True)
+    formatter.set_scientific(True)
+    formatter.set_powerlimits(scientific_limits)
+
+    ax.xaxis.set_major_formatter(formatter)
+    ax.yaxis.set_major_formatter(formatter)
     
     # Achsenbeschriftungen und Titel
     ax.set_xlabel(x_label)
