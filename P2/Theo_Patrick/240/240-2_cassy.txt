@@ -1,4 +1,8 @@
-#t B I
+MIN=0	-3	-1000	0	
+MAX=320	3	1000	5	
+SCALE=100	1	500	1	
+DEC=1	3	0	3	
+DEF="Zeit" t / s	"Strom" I_A1 / A	"Magn. Flussdichte" B_B1 / mT	"Frequenz" f / Hz	
 0	0	-0,5	NAN	
 0,1	-0,0015	-1	NAN	
 0,201	0,0015	-0,5	NAN	
