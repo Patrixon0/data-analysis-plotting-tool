@@ -35,14 +35,16 @@ def add_column_to_file(file_n, col_nr = None, col_name = 'new_col', Value = None
         df.insert(col_nr, col_name, df[per_cent_error_col_name_and_val[0]] * per_cent_error_col_name_and_val[1]) # inserts column at col_nr
 
     header = df.columns.tolist() # saves new header
-
+    new_header = ''
+    for i in range(len(header)):
+        new_header += header[i] + ' '
     print('df.haed(): ')
     print(df.head())
 
     # save to file
     with open(output_file_path, 'w') as f:
         # Schreibe den Header
-        f.write(f"{header}\n")
+        f.write(f"{new_header}\n")
         # Schreibe die Ergebnisse
         np.savetxt(f, df.to_numpy(), fmt=f'%.{result_length}f', delimiter=' ')
 
