@@ -96,7 +96,7 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
                 x_major_ticks=None, x_minor_ticks=None, y_major_ticks=None, y_minor_ticks=None,
                 legendlocation='best', y_labels=None, y_markers=None, y_colors=None, 
                 x_decimal_places=1, y_decimal_places=1, scientific_limits=(-3,3), Ursprungsgerade=None, custom_datavol_limiter=0,
-                linear_fit=False, focus_point=False, plot_y_inter = False, y_inter_label = None, x_shift = 0, y_shift = 0, plot_errors = True):
+                linear_fit=False, focus_point=False, plot_y_inter = False, y_inter_label = None, x_shift = 0, y_shift = 0, plot_errors = True, size = 1):
                 
     """
     Diese Funktion ermöglicht die Darstellung von Messdaten mit Fehlerbalken und optionaler linearer Regression.
@@ -188,9 +188,9 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
         color = y_colors[i % len(y_colors)]
         if plot_errors == True:
             ax.errorbar(x_val_limited, y_val_limited, xerr=x_err_limited, yerr=y_err_limited,
-                marker=marker, capsize=3, linestyle='none', label=label, color=color)
+                marker=marker, capsize=3, linestyle='none', label=label, color=color, markersize = size)
         else:
-            ax.plot(x_val_limited, y_val_limited, marker=marker, linestyle='none', label=label, color=color)
+            ax.plot(x_val_limited, y_val_limited, marker=marker, linestyle='none', label=label, color=color, markersize = size)
     
         if linear_fit:
             # Berechnungen der Ausgleichsgeraden -unsicherheit und des Mittelwerts 
