@@ -269,7 +269,7 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
             print(f"Steigung: {grad_str} ± {grad_err_str}")
             print(f"Y-Achsenabschnitt: {y_inter_str} ± {y_inter_err_str}\n")
     
-    # Ursprungsgerade auf begrenzte Werte anpassen
+    # Ursprungsgerade (auf begrenzte Werte angepasst)
     overall_max_x = max(overall_max_x, max(x_val_limited))
     if Ursprungsgerade != None :
         line_range = np.linspace(0, overall_max_x, 100)
