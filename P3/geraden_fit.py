@@ -205,6 +205,7 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
             grad = (xty_mean - x_mean * y_mean) / (xs_mean - x_mean ** 2)
             y_inter = (xs_mean * y_mean - x_mean * xty_mean) / (xs_mean - x_mean ** 2)
             xy_err_mean = np.mean((y_err * np.sqrt(((x_err / x_val)/(y_err / (y_val-y_inter)))**2 + 1))) # Beruecksichtigung des X-Fehlers für folgende Fehlerberechnung der Geradensteigung
+            # ^ Fehleranfällig, da x_err/x_val bei x_val=0 nicht definiert ist (only god knows how this works)
             var_grad = xy_err_mean ** 2 / (n * (xs_mean - x_mean ** 2))
             var_inter = xy_err_mean ** 2 * xs_mean / (n * (xs_mean - x_mean ** 2))
     
