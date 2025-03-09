@@ -178,12 +178,10 @@ def evaluate_gaussian_error(file_path, formulas, variables, result_names, result
     output_file_path = os.path.join(folder_path, output_file_name)
     
     # Erstelle den Header für die Ausgabedatei
-    header_items = []
+    header = []
     for name in result_names:
-        header_items.append(name)
-        header_items.append(f"err_{name}")
-    # Formatierter Header
-    header = f"#{' '.join(header_items)}"
+        header.append(name)
+        header.append(f"err_{name}")
     
     ## Schreibe den Header und die Ergebnisse in die Datei
     #with open(output_file_path, 'w') as f:
@@ -192,9 +190,9 @@ def evaluate_gaussian_error(file_path, formulas, variables, result_names, result
     #    # Schreibe die Ergebnisse
     #    np.savetxt(f, results, fmt=f'%.{result_length}f', delimiter=' ')
 
-    with open(output_file_path, 'w') as f:
+    with open(output_file_path, 'w', newline='') as f:
         # Schreibe den Header
-        f.write(f"{header}\n")
+        csv.writer(f).writerow(header)
         # Schreibe die Ergebnisse
         csv.writer(f).writerows(results)
 

@@ -141,5 +141,5 @@ config_1 = GeradeConfig(
     length = 10,
     height = 5,
     size = 1,
-    delimiter = ""
+    delimiter = ","
 )

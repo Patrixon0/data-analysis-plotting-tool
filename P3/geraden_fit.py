@@ -155,11 +155,34 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     # Überprüfen der Dateiendung und Laden der Daten entsprechend
     if file_n.endswith('.csv'):
         # CSV-Datei mit Pandas laden
-        df = pd.read_csv(file_n, delimiter=params['delimiter'])
-        # Umwandlung in NumPy-Array für weitere Verarbeitung
-        data = df.values
+        df = pd.read_csv(file_n, delimiter=params['delimiter'], header=0)
+        
+        # Clean column names by removing asterisks if present
+        df.columns = [col.replace('*', '') for col in df.columns]
+        
+        print("\nDataframe loaded:")
+        print(df)
+        
+        # Convert the dataframe to the format expected by the rest of the function
+        # Create an array with [x, x_err, y1, y1_err, y2, y2_err, ...] structure
+        x_col = df.columns[0]  # First column as x values
+        x_err_col = df.columns[1]  # Second column as x error
+        
+        # Initialize with x and x_err columns
+        data_array = np.column_stack((df[x_col].values, df[x_err_col].values))
+        
+        # Add each y and y_err column pair
+        for i in range(2, len(df.columns), 2):
+            if i+1 < len(df.columns):  # Ensure both y and y_err columns exist
+                y_col = df.columns[i]
+                y_err_col = df.columns[i+1]
+                data_array = np.column_stack((data_array, df[y_col].values, df[y_err_col].values))
+        
+        data = data_array
+        print("\nConverted data array:")
+        print(data)
     else:
-        # Bestehender Code für Leerzeichen-getrennte Dateien
+        # Original code for space-separated files
         data = np.loadtxt(file_n, ndmin=1)
     
     x_val, x_err = data[:, 0] + params['x_shift'], data[:, 1]
