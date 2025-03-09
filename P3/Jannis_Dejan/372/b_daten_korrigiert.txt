@@ -1,4 +1,4 @@
-T[K]	err_T[K]	U_spiegel[mV]	err_U_spiegel[mV]	U_matt[mV]	err_U_matt[mV]	U_weiß[mV]	err_U_weiß[mV]	U_schwarz[mV]	err_U_schwarz[mV]	T_0[K]	err_T_0[K]
+#T[K]	err_T[K]	U_spiegel[mV]	err_U_spiegel[mV]	U_matt[mV]	err_U_matt[mV]	U_weiß[mV]	err_U_weiß[mV]	U_schwarz[mV]	err_U_schwarz[mV]	T_0[K]	err_T_0[K]
 298	1	0.0	0.1	0.0	0.1	3.0	0.1	2.9	0.1	297	1
 303	1	0.5	0.1	1.2	0.1	7.9	0.1	7.6	0.1	297	1
 308	1	0.8	0.1	2.1	0.1	13.0	0.1	12.6	0.1	297	1
