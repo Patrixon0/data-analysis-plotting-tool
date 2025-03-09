@@ -391,7 +391,9 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     ax.set_title(params['title'])
     
     # Legende anzeigen
-    if params['legendlocation'] != None:
+    if params['legendlocation'] == 'outside right':
+        ax.legend(loc='center left', bbox_to_anchor=(1.05, 0.5))
+    elif params['legendlocation'] != None:
         ax.legend(loc=params['legendlocation'])
     
     if params['save']:
