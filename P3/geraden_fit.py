@@ -239,7 +239,7 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     
         if params['linear_fit']:
             # Berechnungen der Ausgleichsgeraden -unsicherheit und des Mittelwerts 
-            xy_err_mean = mean_calc(None, np.sqrt(np.square(x_err_limited) + np.square(y_err_limited)), 'error')
+            xy_err_mean = mean_calc(None, np.sqrt(np.square(x_err_limited/(x_val_limited + x_err_limited/2)) + 1), 'error')
             x_mean = mean_calc(x_val_limited, y_err_limited)
             y_mean = mean_calc(y_val_limited, y_err_limited)
             xy_mean = mean_calc(x_val_limited * y_val_limited, y_err_limited)
@@ -381,7 +381,7 @@ def geraden_fit(file_n, config=config_1, **kwargs):
             return f'{x:.1e}'
         else:
             return f'{x:.1f}'  # Regular formatting for numbers in the middle range
-    
+
     ax.xaxis.set_major_formatter(FuncFormatter(scientific_formatter))
     ax.yaxis.set_major_formatter(FuncFormatter(scientific_formatter))
     
