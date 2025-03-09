@@ -239,7 +239,7 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     
         if params['linear_fit']:
             # Berechnungen der Ausgleichsgeraden -unsicherheit und des Mittelwerts 
-            xy_err_mean = mean_calc(None, np.sqrt(np.square(x_err_limited/(x_val_limited + x_err_limited/2)) + 1), 'error')
+            xy_err_mean = mean_calc(None, y_err_limited * np.sqrt(np.square(x_err_limited/(x_val_limited + x_err_limited/2)) + 1), 'error')
             x_mean = mean_calc(x_val_limited, y_err_limited)
             y_mean = mean_calc(y_val_limited, y_err_limited)
             xy_mean = mean_calc(x_val_limited * y_val_limited, y_err_limited)
@@ -262,9 +262,9 @@ def geraden_fit(file_n, config=config_1, **kwargs):
 
             # legacy function: np.mean((y_err * np.sqrt(((x_err / x_val)/(y_err / (y_val-y_inter)))**2 + 1))) 
             # Fehleranfällig, da x_err/x_val bei x_val=0 nicht definiert ist (only god knows how this works)
-            var_grad = np.square(xy_err_mean) / abs(n * (xs_mean - np.square(x_mean)))
-            var_y_inter = np.square(xy_err_mean) * xs_mean / abs(n * (xs_mean - np.square(x_mean)))
-            var_x_inter = np.square(xy_err_mean) * root_ys_mean / abs(n * (root_ys_mean - np.square(root_y_mean)))
+            var_grad = np.square(xy_err_mean) / (n * (xs_mean - np.square(x_mean)))
+            var_y_inter = np.square(xy_err_mean) * xs_mean / (n * (xs_mean - np.square(x_mean)))
+            var_x_inter = np.square(xy_err_mean) * root_ys_mean / (n * (root_ys_mean - np.square(root_y_mean)))
             # Anhang A1.23, A1.24
 
             grad_err = np.sqrt(var_grad)
