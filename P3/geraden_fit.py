@@ -242,6 +242,10 @@ def geraden_fit(file_n, config=config_1, **kwargs):
         if params['linear_fit']:
             # Berechnungen der Ausgleichsgeraden -unsicherheit und des Mittelwerts 
             
+            '''
+            ------> This is the old version of the calculation, which is not working correctly <------
+
+            
             #This is an attempt at considering the errors of both x and y values in various calculations. This broke me, it is not working correctly as you have to consider the errors relative to the values and shit
             #xy_err_mean = mean_calc(None, 0.5*np.sqrt(np.square(y_err_limited)+np.square(x_err_limited * ((y_val_limited + 0.5*y_err_limited)/(x_val_limited + 0.5*x_err_limited))))
             #                        + 0.5*np.sqrt(np.square(x_err_limited)+np.square(y_err_limited * ((x_val_limited + 0.5*x_err_limited)/(y_val_limited + 0.5*y_err_limited)))), 'error')
@@ -256,14 +260,17 @@ def geraden_fit(file_n, config=config_1, **kwargs):
             #root_xy_mean = mean_calc(x_val_limited * y_val_limited, x_err_limited)
             #root_ys_mean = mean_calc(np.square(y_val_limited), x_err_limited)
             ## Anhang A1.26
-#
             #denominator = xs_mean - np.square(x_mean)
             #grad = (xy_mean - x_mean * y_mean) / denominator
             #y_inter = (xs_mean * y_mean - x_mean * xy_mean) / denominator
             #x_inter = (root_ys_mean * root_x_mean - root_y_mean * root_xy_mean) / (root_ys_mean - np.square(root_y_mean))
             # Anhang A1.21, A1.22
-
             # Beruecksichtigung des X-Fehlers für folgende Fehlerberechnung der Geradensteigung
+            '''
+            
+            # We calculate a temporary gradient by the means of the linear fit formulas of A1. As we have to consider the errors of both x and y values, 
+            # we use the temporary gradient to calibrate the x_err values to the y_err values. Then we calculate the length of the joint x_err and y_err vector.
+            # This is then used in the calculation instead of the y_err values solely. This gives results that regard the errors of both x and y values.
             
             tempo_grad_y = (mean_calc(x_val_limited * y_val_limited, y_err_limited) - mean_calc(x_val_limited, y_err_limited) * mean_calc(y_val_limited, y_err_limited)) /(mean_calc(np.square(x_val_limited), y_err_limited) - np.square(mean_calc(x_val_limited, y_err_limited)))
             tempo_grad_x = (mean_calc(x_val_limited * y_val_limited, x_err_limited) - mean_calc(x_val_limited, x_err_limited) * mean_calc(y_val_limited, x_err_limited)) /(mean_calc(np.square(x_val_limited), x_err_limited) - np.square(mean_calc(x_val_limited, x_err_limited)))
