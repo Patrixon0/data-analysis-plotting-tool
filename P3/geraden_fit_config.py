@@ -13,7 +13,9 @@ class GeradeConfig:
         linear_fit: bool = False,
         focus_point: bool = False,
         plot_y_inter: bool = False,
+        plot_x_inter: bool = False,
         y_inter_label: Optional[str] = None,
+        x_inter_label: Optional[str] = None,
         Ursprungsgerade: Optional[float] = None,
         plot_errors: bool = True,
         x_axis: float = 0,
@@ -48,7 +50,9 @@ class GeradeConfig:
             linear_fit: Whether to perform linear regression
             focus_point: Whether to display focus point with error bars
             plot_y_inter: Whether to show y-intercept
+            plot_x_inter: Whether to show y-intercept
             y_inter_label: Label for the y-intercept
+            x_inter_label: Label for the y-intercept
             Ursprungsgerade: Creates line through origin with this slope
             plot_errors: Whether to plot errors
             x_axis: Position of vertical line at x=0
@@ -79,7 +83,9 @@ class GeradeConfig:
         self.linear_fit = linear_fit
         self.focus_point = focus_point
         self.plot_y_inter = plot_y_inter
+        self.plot_x_inter = plot_x_inter
         self.y_inter_label = y_inter_label
+        self.x_inter_label = x_inter_label
         self.Ursprungsgerade = Ursprungsgerade
         self.plot_errors = plot_errors
         self.x_axis = x_axis
@@ -111,7 +117,9 @@ config_1 = GeradeConfig(
     linear_fit = True,
     focus_point = True,
     plot_y_inter = False,
+    plot_x_inter = False,
     y_inter_label = None,
+    x_inter_label = None,
     Ursprungsgerade = None,
     plot_errors = True,
     x_axis = 0,
