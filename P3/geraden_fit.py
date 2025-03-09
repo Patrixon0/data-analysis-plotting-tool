@@ -139,6 +139,8 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     - height (float, optional): Höhe der Abbildung in Zoll. Standard: 5.
     - size (float, optional): Größe der Marker. Standard: 1.
     - delimiter (str, optional): Trennzeichen für CSV-Dateien. Standard: ','.
+    - y_max (float, optional): Obere Begrenzung der Y-Achse. Standard: None (keine Begrenzung).
+    - y_min (float, optional): Untere Begrenzung der Y-Achse. Standard: None (keine Begrenzung).
     """
 
     # If config provided, use its values as defaults
@@ -326,6 +328,13 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     if params['Ursprungsgerade'] != None:
         line_range = np.linspace(0, overall_max_x, 100)
         plt.plot(line_range, params['Ursprungsgerade'] * line_range, color="red", linestyle="--", label=f"Ursprungsgerade (y={params['Ursprungsgerade']}*x)")
+
+    # Beschränkt den Graphen auf y_max bzw. y_min
+    if 'y_max' in params and params['y_max'] is not None:
+        ax.set_ylim(top=params['y_max'])
+    if 'y_min' in params and params['y_min'] is not None:
+        ax.set_ylim(bottom=params['y_min'])
+    
 
     # Anzahl der Dezimalstellen für die Achsenlabels festlegen
     x_format_string = f'%.{params['x_decimal_places']}f'

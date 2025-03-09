@@ -37,7 +37,7 @@ class GeradeConfig:
         length: float = 15,
         height: float = 5,
         size: float = 1,
-        delimiter: str = ','
+        delimiter: str = ','s
     ):
         """
         Configuration parameters for the geraden_fit function.
