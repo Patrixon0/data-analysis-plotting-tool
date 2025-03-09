@@ -1,4 +1,4 @@
-U_NT[V]	err_U_Nt[V]	I_Nt[A]	err_I_Nt[A]	U_MM[V]	err_U_MM[V]
+#U_NT[V]	err_U_Nt[V]	I_Nt[A]	err_I_Nt[A]	U_MM[V]	err_U_MM[V]
 12.0	0.05	4.20	0.03	1.606	0.005
 11.0	0.05	4.00	0.03	1.419	0.005
 9.7	0.05	3.75	0.03	1.170	0.005
