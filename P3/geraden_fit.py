@@ -275,8 +275,8 @@ def geraden_fit(file_n, config=config_1, **kwargs):
             overall_min_x = min(overall_min_x, min(x_val_limited)) 
             if params['plot_y_inter'] == True and overall_min_x > 0: 
                 overall_min_x = 0
-            if params['plot_x_inter'] == True and overall_min_x > x_inter:
-                overall_min_x = x_inter 
+            #if params['plot_x_inter'] == True and overall_min_x > x_inter:
+            #    overall_min_y = x_inter 
             
             overall_max_x = max(overall_max_x, max(x_val_limited))
             x_line = np.linspace(overall_min_x, overall_max_x, 100)
@@ -298,10 +298,10 @@ def geraden_fit(file_n, config=config_1, **kwargs):
             if params['plot_y_inter']:
                 if params['y_inter_label'] == None:
                     if params['plot_errors'] == True:
-                        ax.errorbar(0, y_inter, yerr=y_inter_err, marker='x', color='#ffc130', capsize=3,
+                        ax.errorbar(0, y_inter, yerr=y_inter_err, marker='x', color=color, capsize=3,
                                 label=f'Y-Achenabschnitt {label}\n({y_inter_str}±{y_inter_err_str})')  
                     else:
-                        ax.plot(0, y_inter, marker='x', color='#ffc130',
+                        ax.plot(0, y_inter, marker='x', color=color,
                                 label=f'Y-Achenabschnitt {label}\n({y_inter_str}±{y_inter_err_str})')  
                 
             # X-Achsenabschnitt plotten
@@ -310,10 +310,10 @@ def geraden_fit(file_n, config=config_1, **kwargs):
             if params['plot_x_inter']:
                 if params['x_inter_label'] == None:
                     if params['plot_errors'] == True:
-                        ax.errorbar(x_inter, 0, xerr=x_inter_err, marker='x', color='#ffc130', capsize=3,
+                        ax.errorbar(x_inter, 0, xerr=x_inter_err, marker='x', color=color, capsize=3,
                                 label=f'X-Achenabschnitt {label}\n({x_inter_str}±{x_inter_err_str})')  
                     else:
-                        ax.plot(x_inter, 0, marker='x', color='#ffc130',
+                        ax.plot(x_inter, 0, marker='x', color=color,
                                 label=f'X-Achenabschnitt {label}\n({x_inter_str}±{x_inter_err_str})')  
 
             # Fit-Ergebnisse ausgeben
