@@ -160,9 +160,6 @@ def geraden_fit(file_n, config=config_1, **kwargs):
         # Clean column names by removing asterisks if present
         df.columns = [col.replace('*', '') for col in df.columns]
         
-        print("\nDataframe loaded:")
-        print(df)
-        
         # Convert the dataframe to the format expected by the rest of the function
         # Create an array with [x, x_err, y1, y1_err, y2, y2_err, ...] structure
         x_col = df.columns[0]  # First column as x values
@@ -179,8 +176,6 @@ def geraden_fit(file_n, config=config_1, **kwargs):
                 data_array = np.column_stack((data_array, df[y_col].values, df[y_err_col].values))
         
         data = data_array
-        print("\nConverted data array:")
-        print(data)
     else:
         # Original code for space-separated files
         data = np.loadtxt(file_n, ndmin=1)
