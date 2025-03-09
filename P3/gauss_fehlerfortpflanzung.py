@@ -1,6 +1,7 @@
 import sympy as sp
 import numpy as np
 import os
+import csv
 
 
 def gaussian_error_propagation(formula, variables, result_lenght=4, output=True, for_file=False):
@@ -173,7 +174,7 @@ def evaluate_gaussian_error(file_path, formulas, variables, result_names, result
     base_name = os.path.splitext(os.path.basename(file_path))[0]
     
     # Erstelle den Ausgabedateinamen durch Anhängen des Suffixes
-    output_file_name = f"{base_name}_{output_file_suffix}.txt"
+    output_file_name = f"{base_name}_{output_file_suffix}.csv"
     output_file_path = os.path.join(folder_path, output_file_name)
     
     # Erstelle den Header für die Ausgabedatei
@@ -184,12 +185,19 @@ def evaluate_gaussian_error(file_path, formulas, variables, result_names, result
     # Formatierter Header
     header = f"#{' '.join(header_items)}"
     
-    # Schreibe den Header und die Ergebnisse in die Datei
+    ## Schreibe den Header und die Ergebnisse in die Datei
+    #with open(output_file_path, 'w') as f:
+    #    # Schreibe den Header
+    #    f.write(f"{header}\n")
+    #    # Schreibe die Ergebnisse
+    #    np.savetxt(f, results, fmt=f'%.{result_length}f', delimiter=' ')
+
     with open(output_file_path, 'w') as f:
         # Schreibe den Header
         f.write(f"{header}\n")
         # Schreibe die Ergebnisse
-        np.savetxt(f, results, fmt=f'%.{result_length}f', delimiter=' ')
-    
+        csv.writer(f).writerows(results)
+
+
     # Gib eine Erfolgsnachricht aus
     print(f"Auswertung abgeschlossen. Ergebnisse wurden in '{output_file_path}' gespeichert.")
