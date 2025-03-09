@@ -243,50 +243,71 @@ def geraden_fit(file_n, config=config_1, **kwargs):
             #This is an attempt at considering the errors of both x and y values in various calculations. This broke me, it is not working correctly as you have to consider the errors relative to the values and shit
             #xy_err_mean = mean_calc(None, 0.5*np.sqrt(np.square(y_err_limited)+np.square(x_err_limited * ((y_val_limited + 0.5*y_err_limited)/(x_val_limited + 0.5*x_err_limited))))
             #                        + 0.5*np.sqrt(np.square(x_err_limited)+np.square(y_err_limited * ((x_val_limited + 0.5*x_err_limited)/(y_val_limited + 0.5*y_err_limited)))), 'error')
-            x_mean = mean_calc(x_val_limited, y_err_limited)
-            y_mean = mean_calc(y_val_limited, y_err_limited)
-            xy_mean = mean_calc(x_val_limited * y_val_limited, y_err_limited)
-            xs_mean = mean_calc(np.square(x_val_limited), y_err_limited)
-            y_err_mean = mean_calc(None, y_err_limited, 'error')
+            #x_mean = mean_calc(x_val_limited, y_err_limited)
+            #y_mean = mean_calc(y_val_limited, y_err_limited)
+            #xy_mean = mean_calc(x_val_limited * y_val_limited, y_err_limited)
+            #xs_mean = mean_calc(np.square(x_val_limited), y_err_limited)
+            #y_err_mean = mean_calc(None, y_err_limited, 'error')
+            #
+            #root_x_mean = mean_calc(x_val_limited, x_err_limited)
+            #root_y_mean = mean_calc(y_val_limited, x_err_limited)
+            #root_xy_mean = mean_calc(x_val_limited * y_val_limited, x_err_limited)
+            #root_ys_mean = mean_calc(np.square(y_val_limited), x_err_limited)
+            ## Anhang A1.26
+#
+            #denominator = xs_mean - np.square(x_mean)
+            #grad = (xy_mean - x_mean * y_mean) / denominator
+            #y_inter = (xs_mean * y_mean - x_mean * xy_mean) / denominator
+            #x_inter = (root_ys_mean * root_x_mean - root_y_mean * root_xy_mean) / (root_ys_mean - np.square(root_y_mean))
+            # Anhang A1.21, A1.22
+
+            # Beruecksichtigung des X-Fehlers für folgende Fehlerberechnung der Geradensteigung
             
-            root_x_mean = mean_calc(x_val_limited, x_err_limited)
-            root_y_mean = mean_calc(y_val_limited, x_err_limited)
-            root_xy_mean = mean_calc(x_val_limited * y_val_limited, x_err_limited)
-            root_ys_mean = mean_calc(np.square(y_val_limited), x_err_limited)
-            # Anhang A1.26
+            tempo_grad_y = (mean_calc(x_val_limited * y_val_limited, y_err_limited) - mean_calc(x_val_limited, y_err_limited) * mean_calc(y_val_limited, y_err_limited)) /(mean_calc(np.square(x_val_limited), y_err_limited) - np.square(mean_calc(x_val_limited, y_err_limited)))
+            tempo_grad_x = (mean_calc(x_val_limited * y_val_limited, x_err_limited) - mean_calc(x_val_limited, x_err_limited) * mean_calc(y_val_limited, x_err_limited)) /(mean_calc(np.square(x_val_limited), x_err_limited) - np.square(mean_calc(x_val_limited, x_err_limited)))
+            print(tempo_grad_y, tempo_grad_x)
+            mean_tempo_grad = (tempo_grad_y + tempo_grad_x) / 2
+            xwy_err_limited = np.sqrt(np.square(x_err_limited * mean_tempo_grad) + np.square(y_err_limited))
+            xy_err_mean = mean_calc(None, xwy_err_limited, 'error')
+            x_mean = mean_calc(x_val_limited, xwy_err_limited)
+            y_mean = mean_calc(y_val_limited, xwy_err_limited)
+            xy_mean = mean_calc(x_val_limited * y_val_limited, xwy_err_limited)
+            xs_mean = mean_calc(np.square(x_val_limited), xwy_err_limited)
+            ys_mean = mean_calc(np.square(y_val_limited), xwy_err_limited)
 
             denominator = xs_mean - np.square(x_mean)
             grad = (xy_mean - x_mean * y_mean) / denominator
             y_inter = (xs_mean * y_mean - x_mean * xy_mean) / denominator
-            x_inter = (root_ys_mean * root_x_mean - root_y_mean * root_xy_mean) / (root_ys_mean - np.square(root_y_mean))
-            # Anhang A1.21, A1.22
+            x_inter = (mean_calc(np.square(y_val_limited), xwy_err_limited) * mean_calc(x_val_limited, xwy_err_limited) - mean_calc(y_val_limited, xwy_err_limited) * mean_calc(x_val_limited * y_val_limited, xwy_err_limited)) / (mean_calc(np.square(y_val_limited), xwy_err_limited) - np.square(mean_calc(y_val_limited, xwy_err_limited)))
 
-            # Beruecksichtigung des X-Fehlers für folgende Fehlerberechnung der Geradensteigung
-
+            #xy_err_mean = mean_calc(None, np.sqrt(np.square(x_err_limited*grad) + np.square(y_err_limited)), 'error')
             # legacy function: np.mean((y_err * np.sqrt(((x_err / x_val)/(y_err / (y_val-y_inter)))**2 + 1))) 
             # Fehleranfällig, da x_err/x_val bei x_val=0 nicht definiert ist (only god knows how this works)
-            var_grad = np.square(y_err_mean) / (n * (xs_mean - np.square(x_mean)))
-            var_y_inter = np.square(y_err_mean) * xs_mean / (n * (xs_mean - np.square(x_mean)))
-            var_x_inter = np.square(y_err_mean) * root_ys_mean / (n * (root_ys_mean - np.square(root_y_mean)))
+            var_grad = np.square(xy_err_mean) / (n * (xs_mean - np.square(x_mean)))
+            var_y_inter = np.square(xy_err_mean) * xs_mean / (n * (xs_mean - np.square(x_mean)))
+            var_x_inter = np.square(xy_err_mean) * ys_mean / (n * (ys_mean - np.square(y_mean)))
             # Anhang A1.23, A1.24
-
+    
             grad_err = np.sqrt(var_grad)
             y_inter_err = np.sqrt(var_y_inter)
             x_inter_err = np.sqrt(var_x_inter)
     
-            x_mean_err = np.sqrt(np.sum(x_err_limited**2)) / n  # Fehler des Mittelwerts
+            x_mean_err = mean_calc(None, x_err_limited, 'error')
+            #x_mean_err = np.sqrt(np.sum(x_err_limited**2)) / n  # Fehler des x-Mittelwerts
+            y_mean_err = mean_calc(None, y_err_limited, 'error')
+            #y_mean_err = np.sqrt(np.sum(y_err_limited**2)) / n  # Fehler des y-Mittelwerts
     
             # Gerundete Werte erhalten
             grad_str, grad_err_str = round_measurement(grad, grad_err)
             y_inter_str, y_inter_err_str = round_measurement(y_inter, y_inter_err)
             x_inter_str, x_inter_err_str = round_measurement(x_inter, x_inter_err)
             x_mean_str, x_mean_err_str = round_measurement(x_mean, x_mean_err)
-            y_mean_str, y_mean_err_str = round_measurement(y_mean, y_err_mean)
+            y_mean_str, y_mean_err_str = round_measurement(y_mean, y_mean_err)
 
             # Schwerpunkt plotten
             if params['focus_point']:
                 if params['plot_errors'] == True:
-                    ax.errorbar(x_mean, y_mean, yerr=y_err_mean, xerr=x_mean_err, marker='x', color='red', capsize=3,
+                    ax.errorbar(x_mean, y_mean, yerr=y_mean_err, xerr=x_mean_err, marker='x', color='red', capsize=3,
                             label=f'Schwerpunkt {label}\n({x_mean_str}±{x_mean_err_str}, {y_mean_str}±{y_mean_err_str})')  
                 else:
                     ax.plot(x_mean, y_mean, marker='x', color='red',
