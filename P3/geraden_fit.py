@@ -118,6 +118,7 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     - y_inter_label (str, optional): Label für den Y-Achsenabschnitt. Standard: None.
     - x_inter_label (str, optional): Label für den X-Achsenabschnitt. Standard: None.
     - Ursprungsgerade (float, optional): Erstellt Ursprungsgerade mit Steigung Ursprungsgerade. Standard: None.
+    - Ursprungsgerade_title (str,optional): Bennenug der Ursprungsgeraden in der Legende. Standart: Ursprungsgerade
     - plot_errors (bool, optional): Ob Fehler auch geplotted werden. Standard: True.
     - x_axis (float, optional): Position der vertikalen Linie bei x=0. Standard: 0.
     - y_axis (float, optional): Position der horizontalen Linie bei y=0. Standard: 0.
@@ -345,7 +346,8 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     # Ursprungsgerade (auf begrenzte Werte angepasst)
     if params['Ursprungsgerade'] != None:
         line_range = np.linspace(0, overall_max_x, 100)
-        plt.plot(line_range, params['Ursprungsgerade'] * line_range, color="red", linestyle="--", label=f"Ursprungsgerade (y={params['Ursprungsgerade']}*x)")
+        plt.plot(line_range, params['Ursprungsgerade'] * line_range, color="black", linestyle="-", label=f"{params['Ursprungsgerade_title']} (m={params['Ursprungsgerade']})")
+        
 
     # Beschränkt den Graphen auf y_max bzw. y_min
     if 'y_max' in params and params['y_max'] is not None:
