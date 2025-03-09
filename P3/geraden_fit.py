@@ -120,8 +120,8 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     - Ursprungsgerade (float, optional): Erstellt Ursprungsgerade mit Steigung Ursprungsgerade. Standard: None.
     - Ursprungsgerade_title (str,optional): Bennenug der Ursprungsgeraden in der Legende. Standart: Ursprungsgerade
     - plot_errors (bool, optional): Ob Fehler auch geplotted werden. Standard: True.
-    - x_axis (float, optional): Position der vertikalen Linie bei x=0. Standard: 0.
-    - y_axis (float, optional): Position der horizontalen Linie bei y=0. Standard: 0.
+    - x_axis (float, optional): Position der horizontalen Linie bei y=0. Standard: 0.
+    - y_axis (float, optional): Position der vertikalen Linie bei x=0. Standard: 0.
     - x_major_ticks (float, optional): Abstand zwischen den Hauptticks der X-Achse. Standard: None.
     - x_minor_ticks (float, optional): Abstand zwischen den Nebenticks der X-Achse. Standard: None.
     - y_major_ticks (float, optional): Abstand zwischen den Hauptticks der Y-Achse. Standard: None.
@@ -204,8 +204,8 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     fig, ax = plt.subplots(figsize=(params['length'], params['height']))
     
     # Achsen bei x=0 und y=0 hinzufügen
-    ax.axhline(params['y_axis'], color='black', linewidth=1.5)
-    ax.axvline(params['x_axis'], color='black', linewidth=1.5)
+    ax.axhline(params['x_axis'], color='black', linewidth=1.5)
+    ax.axvline(params['y_axis'], color='black', linewidth=1.5)
     
     # Begrenzter Wertebereich für die Ursprungsgerade initialisieren
     overall_min_x = np.inf
@@ -272,6 +272,9 @@ def geraden_fit(file_n, config=config_1, **kwargs):
             # we use the temporary gradient to calibrate the x_err values to the y_err values. Then we calculate the length of the joint x_err and y_err vector.
             # This is then used in the calculation instead of the y_err values solely. This gives results that regard the errors of both x and y values.
             # The generall procedure is calles minimization of the squares. You can read more about it on this website: https://www.sherrytowers.com/cowan_statistical_data_analysis.pdf
+
+
+            #Theo ist ein k
 
             tempo_grad_y = (mean_calc(x_val_limited * y_val_limited, y_err_limited) - mean_calc(x_val_limited, y_err_limited) * mean_calc(y_val_limited, y_err_limited)) /(mean_calc(np.square(x_val_limited), y_err_limited) - np.square(mean_calc(x_val_limited, y_err_limited)))
             tempo_grad_x = (mean_calc(x_val_limited * y_val_limited, x_err_limited) - mean_calc(x_val_limited, x_err_limited) * mean_calc(y_val_limited, x_err_limited)) /(mean_calc(np.square(x_val_limited), x_err_limited) - np.square(mean_calc(x_val_limited, x_err_limited)))

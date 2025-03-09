@@ -59,8 +59,8 @@ class GeradeConfig:
             Ursprungsgerade: Creates line through origin with this slope
             Ursprungsgerade_title: Title for line in legend
             plot_errors: Whether to plot errors
-            x_axis: Position of vertical line at x=0
-            y_axis: Position of horizontal line at y=0
+            x_axis: Position of horizontal line at y=0
+            y_axis: Position of vertical line at x=0
             x_major_ticks: Spacing between major x-axis ticks
             x_minor_ticks: Spacing between minor x-axis ticks
             y_major_ticks: Spacing between major y-axis ticks
