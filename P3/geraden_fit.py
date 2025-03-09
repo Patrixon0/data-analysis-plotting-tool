@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.ticker import MultipleLocator, FormatStrFormatter, ScalarFormatter
+from matplotlib.ticker import MultipleLocator, FormatStrFormatter, ScalarFormatter, FuncFormatter
 import pandas as pd
 from decimal import Decimal, ROUND_HALF_UP, getcontext
 
@@ -376,13 +376,14 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     if params['x_minor_ticks'] != None or params['y_minor_ticks'] != None:
         ax.grid(which='minor', color='lightgrey', linestyle=':', linewidth=0.5)
 
-    # Wissenschaftliche Notation für Ticks aktivieren
-    formatter = ScalarFormatter(useMathText=True)
-    formatter.set_scientific(True)
-    formatter.set_powerlimits(params['scientific_limits'])
-
-    ax.xaxis.set_major_formatter(formatter)
-    ax.yaxis.set_major_formatter(formatter)
+    def scientific_formatter(x, pos):
+        if abs(x) < 1e-3 or abs(x) >= 1e4:  # Customize these thresholds
+            return f'{x:.1e}'
+        else:
+            return f'{x:.1f}'  # Regular formatting for numbers in the middle range
+    
+    ax.xaxis.set_major_formatter(FuncFormatter(scientific_formatter))
+    ax.yaxis.set_major_formatter(FuncFormatter(scientific_formatter))
     
     # Achsenbeschriftungen und Titel
     ax.set_xlabel(params['x_label'])
@@ -390,7 +391,8 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     ax.set_title(params['title'])
     
     # Legende anzeigen
-    ax.legend(loc=params['legendlocation'])
+    if params['legendlocation'] != None:
+        ax.legend(loc=params['legendlocation'])
     
     if params['save']:
         plt.savefig(f'{file_n}.png', bbox_inches='tight')
