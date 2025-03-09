@@ -17,6 +17,7 @@ class GeradeConfig:
         y_inter_label: Optional[str] = None,
         x_inter_label: Optional[str] = None,
         Ursprungsgerade: Optional[float] = None,
+        Ursprungsgerade_title: str = "Ursprungsgerade",
         plot_errors: bool = True,
         x_axis: float = 0,
         y_axis: float = 0,
@@ -56,6 +57,7 @@ class GeradeConfig:
             y_inter_label: Label for the y-intercept
             x_inter_label: Label for the y-intercept
             Ursprungsgerade: Creates line through origin with this slope
+            Ursprungsgerade_title: Title for line in legend
             plot_errors: Whether to plot errors
             x_axis: Position of vertical line at x=0
             y_axis: Position of horizontal line at y=0
@@ -91,6 +93,7 @@ class GeradeConfig:
         self.y_inter_label = y_inter_label
         self.x_inter_label = x_inter_label
         self.Ursprungsgerade = Ursprungsgerade
+        self.Ursprungsgerade_title = Ursprungsgerade_title
         self.plot_errors = plot_errors
         self.x_axis = x_axis
         self.y_axis = y_axis
@@ -127,6 +130,7 @@ config_1 = GeradeConfig(
     y_inter_label = None,
     x_inter_label = None,
     Ursprungsgerade = None,
+    Ursprungsgerade_title = 'Ursprungsgerade',
     plot_errors = True,
     x_axis = 0,
     y_axis = 0,
