@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.ticker import MultipleLocator, FormatStrFormatter, ScalarFormatter
-
+from matplotlib.ticker import MultipleLocator, FormatStrFormatter, ScalarFormatter, FuncFormatter
+import pandas as pd
 from decimal import Decimal, ROUND_HALF_UP, getcontext
 
 def round_measurement(value, error):
@@ -50,14 +50,13 @@ def round_measurement(value, error):
 
     # Formatierung, um nachgestellte Nullen zu erhalten
     if dp_val is not None:
-        format_str = f'{{0:.{dp_val}f}}'
-        rounded_value_str = format_str.format(rounded_val)
+        rounded_value_str = f"{rounded_val:.{dp_val}f}"
     else:
         rounded_value_str = str(rounded_val)
 
     if dp_err is not None:
-        format_str = f'{{0:.{dp_err}f}}'
-        rounded_error_str = format_str.format(rounded_err)
+        rounded_error_str = f"{rounded_err:.{dp_err}f}"
+
     else:
         rounded_error_str = str(rounded_err)
 
@@ -79,41 +78,50 @@ def mean_calc(z_input, err_input, goal='data weighting'):
     Rückgabewert:
     - mean_val (float): Der berechnete gewichtete Mittelwert oder der Fehler des Mittelwerts.
     """
-    mean_1 = mean_2 = i = 0
-    while i < len(z_input):
-        mean_1 += (z_input[i] / err_input[i] ** 2)
-        mean_2 += (1 / (err_input[i] ** 2))
-        i += 1
-    if goal == 'data weighting':
-        mean_val = mean_1 / mean_2
-    if goal == 'error':
-        mean_val = np.sqrt(1 / mean_2)
-    return mean_val
-    
 
-def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Achse',
-                save=False, length=15, height=5, x_axis=0, y_axis=0, result_length=4, 
-                x_major_ticks=None, x_minor_ticks=None, y_major_ticks=None, y_minor_ticks=None,
-                legendlocation='best', y_labels=None, y_markers=None, y_colors=None, 
-                x_decimal_places=1, y_decimal_places=1, scientific_limits=(-3,3), Ursprungsgerade=None, custom_datavol_limiter=0,
-                linear_fit=False, focus_point=False, plot_y_inter = False, y_inter_label = None, x_shift = 0, y_shift = 0, plot_errors = True, size = 1):
-                
+    weights = np.square(1 / err_input)
+    
+    if goal == 'data weighting':
+        return np.sum(z_input * weights) / np.sum(weights)
+        # Anhang A1.26
+    elif goal == 'error': 
+        return np.sqrt(len(weights) / np.sum(weights))
+        # Der Return-Wert ist eine approximierte Unsicherheit, die so nicht direkt so in der 
+        # Formel steht, aber in der Praxis gut funktioniert. Anhang A1.27
+    else:
+        raise ValueError("Ungültiges Ziel für mean_calc. Nutze 'data weighting' oder 'error'.")
+
+from geraden_fit_config import config_1
+def geraden_fit(file_n, config=config_1, **kwargs):
     """
     Diese Funktion ermöglicht die Darstellung von Messdaten mit Fehlerbalken und optionaler linearer Regression.
     Sie unterstützt mehrere Datensätze und bietet vielfältige Anpassungsmöglichkeiten für die Visualisierung.
+    
+    Rückgabewert:
+    - Ein Plot der Messdaten mit Fehlerbalken, optionalen Regressionslinien und weiteren Visualisierungen.
+    - Relevante Daten und Ergebnisse werden auch in der Konsole ausgegeben.
 
-    Parameter:
-    - exp_nr (int): Experimentnummer für die Zuordnung.
-    - file_n (str): Name der Datei, die die Daten enthält.
-    - title (str, optional): Titel des Plots. Standard: 'Titel'.
+    Args:
+        file_n: Path to the data file
+        config: A GeradeConfig object containing all parameter settings
+        **kwargs: Individual parameter settings that override config values
+
+    Possible parameters:
+    - title (str, optional): Titel des Plots. Standard: 'unnamed'.
     - x_label (str, optional): Beschriftung der X-Achse. Standard: 'X-Achse'.
     - y_label (str, optional): Beschriftung der Y-Achse. Standard: 'Y-Achse'.
     - save (bool, optional): Ob der Plot gespeichert werden soll. Standard: False.
-    - length (int, optional): Breite des Plots in Zoll. Standard: 15.
-    - height (int, optional): Höhe des Plots in Zoll. Standard: 5.
+    - linear_fit (bool, optional): Ob eine lineare Regression durchgeführt wird. Standard: False.
+    - focus_point (bool, optional): Ob der Schwerpunkt mit Fehlerbalken dargestellt wird. Standard: False.
+    - plot_y_inter (bool, optional): Ob der Y-Achsenabschnitt angezeigt wird. Standard: False.
+    - plot_x_inter (bool, optional): Ob der X-Achsenabschnitt angezeigt wird. Standard: False.
+    - y_inter_label (str, optional): Label für den Y-Achsenabschnitt. Standard: None.
+    - x_inter_label (str, optional): Label für den X-Achsenabschnitt. Standard: None.
+    - Ursprungsgerade (float, optional): Erstellt Ursprungsgerade mit Steigung Ursprungsgerade. Standard: None.
+    - Ursprungsgerade_title (str,optional): Bennenug der Ursprungsgeraden in der Legende. Standart: Ursprungsgerade
+    - plot_errors (bool, optional): Ob Fehler auch geplotted werden. Standard: True.
     - x_axis (float, optional): Position der vertikalen Linie bei x=0. Standard: 0.
     - y_axis (float, optional): Position der horizontalen Linie bei y=0. Standard: 0.
-    - result_length (int, optional): Rundung der Ergebnisse auf diese Anzahl Dezimalstellen. Standard: 4.
     - x_major_ticks (float, optional): Abstand zwischen den Hauptticks der X-Achse. Standard: None.
     - x_minor_ticks (float, optional): Abstand zwischen den Nebenticks der X-Achse. Standard: None.
     - y_major_ticks (float, optional): Abstand zwischen den Hauptticks der Y-Achse. Standard: None.
@@ -124,23 +132,58 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
     - y_colors (list, optional): Farben für die einzelnen Datensätze. Standard: None.
     - x_decimal_places (int, optional): Anzahl der Dezimalstellen auf der X-Achse. Standard: 1.
     - y_decimal_places (int, optional): Anzahl der Dezimalstellen auf der Y-Achse. Standard: 1.
-    - Ursprungsgerade (float, optional): Erstellt Ursprungsgerade mit Steigung Ursprungsgerade
+    - scientific_limits (tuple, optional): Grenzen für wissenschaftliche Notation. Standard: (-3,3).
     - custom_datavol_limiter (int, optional): Begrenzung der Anzahl der Datenpunkte. Standard: 0 (keine Begrenzung).
-    - linear_fit (bool, optional): Ob eine lineare Regression durchgeführt wird. Standard: False.
-    - focus_point (bool, optional): Ob der Schwerpunkt mit Fehlerbalken dargestellt wird. Standard: False.
-    - plot_y_inter (bool, optional): Ob der Y-Achsenabschnitt angezeigt wird. Standard: False.
-    - y_inter_label (str, optional): Label für den Y-Achsenabschnitt. Standard: None.
     - x_shift (float, optional): Horizontaler Offset für die X-Daten. Standard: 0.
     - y_shift (float, optional): Vertikaler Offset für die Y-Daten. Standard: 0.
-    - plot_errors (bool, optional): Ob Fehler auch geplotted werden. Standart: True
-
-    Rückgabewert:
-    - Ein Plot der Messdaten mit Fehlerbalken, optionalen Regressionslinien und weiteren Visualisierungen.
+    - length (float, optional): Länge der Abbildung in Zoll. Standard: 15.
+    - height (float, optional): Höhe der Abbildung in Zoll. Standard: 5.
+    - size (float, optional): Größe der Marker. Standard: 1.
+    - delimiter (str, optional): Trennzeichen für CSV-Dateien. Standard: ','.
+    - y_max (float, optional): Obere Begrenzung der Y-Achse. Standard: None (keine Begrenzung).
+    - y_min (float, optional): Untere Begrenzung der Y-Achse. Standard: None (keine Begrenzung).
     """
 
+    # If config provided, use its values as defaults
+    if config is not None:
+        # Create a dictionary from config object attributes
+        params = config.__dict__.copy()
+        # Override with any explicitly provided kwargs
+        params.update(kwargs)
+    else:
+        # Use provided kwargs with function defaults
+        params = kwargs
+
     # Daten laden
-    data = np.loadtxt(file_n, ndmin=1)
-    x_val, x_err = data[:, 0] + x_shift, data[:, 1]
+    # Überprüfen der Dateiendung und Laden der Daten entsprechend
+    if file_n.endswith('.csv'):
+        # CSV-Datei mit Pandas laden
+        df = pd.read_csv(file_n, delimiter=params['delimiter'], header=0)
+        
+        # Clean column names by removing asterisks if present
+        df.columns = [col.replace('*', '') for col in df.columns]
+        
+        # Convert the dataframe to the format expected by the rest of the function
+        # Create an array with [x, x_err, y1, y1_err, y2, y2_err, ...] structure
+        x_col = df.columns[0]  # First column as x values
+        x_err_col = df.columns[1]  # Second column as x error
+        
+        # Initialize with x and x_err columns
+        data_array = np.column_stack((df[x_col].values, df[x_err_col].values))
+        
+        # Add each y and y_err column pair
+        for i in range(2, len(df.columns), 2):
+            if i+1 < len(df.columns):  # Ensure both y and y_err columns exist
+                y_col = df.columns[i]
+                y_err_col = df.columns[i+1]
+                data_array = np.column_stack((data_array, df[y_col].values, df[y_err_col].values))
+        
+        data = data_array
+    else:
+        # Original code for space-separated files
+        data = np.loadtxt(file_n, ndmin=1)
+    
+    x_val, x_err = data[:, 0] + params['x_shift'], data[:, 1]
     y_data = data[:, 2:]
     
     # Überprüfen, ob die Anzahl der y-Spalten gerade ist
@@ -150,19 +193,19 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
     n_datasets = y_data.shape[1] // 2  # Anzahl der y-Datensätze
     
     # Labels, Marker und Farben vorbereiten
-    if y_labels is None:
-        y_labels = [f'{i+1}' for i in range(n_datasets)]
-    if y_markers is None:
-        y_markers = ['o', 's', 'D', '^', 'v', '<', '>', 'p', '*', 'h', '+', 'x', 'd']
-    if y_colors is None:
+    if params['y_labels'] is None:
+        params['y_labels'] = [f'{i+1}' for i in range(n_datasets)]
+    if params['y_markers'] is None:
+        params['y_markers'] = ['o', 's', 'D', '^', 'v', '<', '>', 'p', '*', 'h', '+', 'x', 'd']
+    if params['y_colors'] is None:
         cmap = plt.cm.get_cmap('tab10')
-        y_colors = [cmap(i) for i in range(n_datasets)]
+        params['y_colors'] = [cmap(i) for i in range(n_datasets)]
     
-    fig, ax = plt.subplots(figsize=(length, height))
+    fig, ax = plt.subplots(figsize=(params['length'], params['height']))
     
     # Achsen bei x=0 und y=0 hinzufügen
-    ax.axhline(y_axis, color='black', linewidth=1.5)
-    ax.axvline(x_axis, color='black', linewidth=1.5)
+    ax.axhline(params['y_axis'], color='black', linewidth=1.5)
+    ax.axvline(params['x_axis'], color='black', linewidth=1.5)
     
     # Begrenzter Wertebereich für die Ursprungsgerade initialisieren
     overall_min_x = np.inf
@@ -170,59 +213,80 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
     
     # Jeden Datensatz plotten
     for i in range(n_datasets):
-        y_val = y_data[:, 2*i] + y_shift
+        y_val = y_data[:, 2*i] + params['y_shift']
         y_err = y_data[:, 2*i + 1]
     
         # Begrenzen der Daten, falls custom_datavol_limiter gesetzt ist
-        limit = custom_datavol_limiter if custom_datavol_limiter > 0 else len(x_val)
+        limit = params['custom_datavol_limiter'] if params['custom_datavol_limiter'] > 0 else len(x_val)
         x_val_limited = x_val[:limit]
         x_err_limited = x_err[:limit]
         y_val_limited = y_val[:limit]
         y_err_limited = y_err[:limit]
-    
+        
         n = len(x_val_limited)
     
-        if y_labels != '':
-            label = y_labels[i] if i < len(y_labels) else f'Datensatz {i+1}'
-        marker = y_markers[i % len(y_markers)]
-        color = y_colors[i % len(y_colors)]
-        if plot_errors == True:
+        if params['y_labels'] != '':
+            label = params['y_labels'][i] if i < len(params['y_labels']) else f'Datensatz {i+1}'
+        marker = params['y_markers'][i % len(params['y_markers'])]
+        color = params['y_colors'][i % len(params['y_colors'])]
+
+        if params['linear_fit']: # If linear Fit is enabled, we disable the legend because of double structures.
+            labellegend="_nolegend_"
+        if params['plot_errors'] == True:
             ax.errorbar(x_val_limited, y_val_limited, xerr=x_err_limited, yerr=y_err_limited,
-                marker=marker, capsize=3, linestyle='none', label=label, color=color, markersize = size)
+                marker=marker, capsize=3, linestyle='none', label=labellegend, color=color, markersize=params['size'])
         else:
-            ax.plot(x_val_limited, y_val_limited, marker=marker, linestyle='none', label=label, color=color, markersize = size)
+            ax.plot(x_val_limited, y_val_limited, marker=marker, linestyle='none', label=labellegend, color=color, markersize=params['size'])
     
-        if linear_fit:
+        if params['linear_fit']:
             # Berechnungen der Ausgleichsgeraden -unsicherheit und des Mittelwerts 
+            
+            #This is an attempt at considering the errors of both x and y values in various calculations. This broke me, it is not working correctly as you have to consider the errors relative to the values and shit
+            #xy_err_mean = mean_calc(None, 0.5*np.sqrt(np.square(y_err_limited)+np.square(x_err_limited * ((y_val_limited + 0.5*y_err_limited)/(x_val_limited + 0.5*x_err_limited))))
+            #                        + 0.5*np.sqrt(np.square(x_err_limited)+np.square(y_err_limited * ((x_val_limited + 0.5*x_err_limited)/(y_val_limited + 0.5*y_err_limited)))), 'error')
             x_mean = mean_calc(x_val_limited, y_err_limited)
             y_mean = mean_calc(y_val_limited, y_err_limited)
-            xty_mean = mean_calc(x_val_limited * y_val_limited, y_err_limited)
-            xs_mean = mean_calc(x_val_limited ** 2, y_err_limited)
-            y_err_mean = mean_calc(y_val_limited, y_err_limited, 'error')
-        
+            xy_mean = mean_calc(x_val_limited * y_val_limited, y_err_limited)
+            xs_mean = mean_calc(np.square(x_val_limited), y_err_limited)
+            y_err_mean = mean_calc(None, y_err_limited, 'error')
             
+            root_x_mean = mean_calc(x_val_limited, x_err_limited)
+            root_y_mean = mean_calc(y_val_limited, x_err_limited)
+            root_xy_mean = mean_calc(x_val_limited * y_val_limited, x_err_limited)
+            root_ys_mean = mean_calc(np.square(y_val_limited), x_err_limited)
+            # Anhang A1.26
 
-            grad = (xty_mean - x_mean * y_mean) / (xs_mean - x_mean ** 2)
-            y_inter = (xs_mean * y_mean - x_mean * xty_mean) / (xs_mean - x_mean ** 2)
-            xy_err_mean = np.mean((y_err * np.sqrt(((x_err / x_val)/(y_err / (y_val-y_inter)))**2 + 1))) # Beruecksichtigung des X-Fehlers für folgende Fehlerberechnung der Geradensteigung
-            # ^ Fehleranfällig, da x_err/x_val bei x_val=0 nicht definiert ist (only god knows how this works)
-            var_grad = xy_err_mean ** 2 / (n * (xs_mean - x_mean ** 2))
-            var_inter = xy_err_mean ** 2 * xs_mean / (n * (xs_mean - x_mean ** 2))
-    
+            denominator = xs_mean - np.square(x_mean)
+            grad = (xy_mean - x_mean * y_mean) / denominator
+            y_inter = (xs_mean * y_mean - x_mean * xy_mean) / denominator
+            x_inter = (root_ys_mean * root_x_mean - root_y_mean * root_xy_mean) / (root_ys_mean - np.square(root_y_mean))
+            # Anhang A1.21, A1.22
+
+            # Beruecksichtigung des X-Fehlers für folgende Fehlerberechnung der Geradensteigung
+
+            # legacy function: np.mean((y_err * np.sqrt(((x_err / x_val)/(y_err / (y_val-y_inter)))**2 + 1))) 
+            # Fehleranfällig, da x_err/x_val bei x_val=0 nicht definiert ist (only god knows how this works)
+            var_grad = np.square(y_err_mean) / (n * (xs_mean - np.square(x_mean)))
+            var_y_inter = np.square(y_err_mean) * xs_mean / (n * (xs_mean - np.square(x_mean)))
+            var_x_inter = np.square(y_err_mean) * root_ys_mean / (n * (root_ys_mean - np.square(root_y_mean)))
+            # Anhang A1.23, A1.24
+
             grad_err = np.sqrt(var_grad)
-            y_inter_err = np.sqrt(var_inter)
+            y_inter_err = np.sqrt(var_y_inter)
+            x_inter_err = np.sqrt(var_x_inter)
     
             x_mean_err = np.sqrt(np.sum(x_err_limited**2)) / n  # Fehler des Mittelwerts
     
             # Gerundete Werte erhalten
             grad_str, grad_err_str = round_measurement(grad, grad_err)
             y_inter_str, y_inter_err_str = round_measurement(y_inter, y_inter_err)
+            x_inter_str, x_inter_err_str = round_measurement(x_inter, x_inter_err)
             x_mean_str, x_mean_err_str = round_measurement(x_mean, x_mean_err)
             y_mean_str, y_mean_err_str = round_measurement(y_mean, y_err_mean)
 
             # Schwerpunkt plotten
-            if focus_point:
-                if plot_errors == True:
+            if params['focus_point']:
+                if params['plot_errors'] == True:
                     ax.errorbar(x_mean, y_mean, yerr=y_err_mean, xerr=x_mean_err, marker='x', color='red', capsize=3,
                             label=f'Schwerpunkt {label}\n({x_mean_str}±{x_mean_err_str}, {y_mean_str}±{y_mean_err_str})')  
                 else:
@@ -231,39 +295,51 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
   
                 
             # Berechnung der Regressionsgeraden
-            if plot_y_inter == False: overall_min_x = min(overall_min_x, min(x_val_limited)) 
-            else: overall_min_x = 0
-            print(overall_min_x)
-            x_line = np.linspace(overall_min_x, max(x_val_limited), 100)
+            
+            overall_min_x = min(overall_min_x, min(x_val_limited)) 
+            if params['plot_y_inter'] == True and overall_min_x > 0: 
+                overall_min_x = 0
+            #if params['plot_x_inter'] == True and overall_min_x > x_inter:
+            #    overall_min_y = x_inter 
+            
+            overall_max_x = max(overall_max_x, max(x_val_limited))
+            x_line = np.linspace(overall_min_x, overall_max_x, 100)
             best_fit = grad * x_line + y_inter
             stan_dev_1 = (grad + grad_err) * (x_line - x_mean) + y_mean
             stan_dev_2 = (grad - grad_err) * (x_line - x_mean) + y_mean
     
             # Regressionsgerade plotten
-            ax.plot(x_line, best_fit, color=color, label=f'Fit {label}: m={grad_str}±{grad_err_str}')
+            ax.plot(x_line, best_fit, color=color, label=f'{label}: m={grad_str}±{grad_err_str}')
 
             # Unsicherheitsgeraden plotten
-            if plot_errors == True:
-                ax.plot(x_line, stan_dev_1, color=color, linestyle=':', label=f'Unsicherheit {label}')
+            if params['plot_errors'] == True:
+                ax.plot(x_line, stan_dev_1, color=color, linestyle=':', label="_nolegend_")
                 ax.plot(x_line, stan_dev_2, color=color, linestyle=':')
     
             # Y-Achsenabschnitt plotten
-            if plot_y_inter:
-                if y_inter_label == None:
-                    if plot_errors == True:
-                        ax.errorbar(0, y_inter, yerr=y_inter_err, marker='x', color='#ffc130', capsize=3,
+            if params['y_inter_label'] != None:
+                labellegend = params['y_inter_label'] # Makes custom labels possible
+            if params['plot_y_inter']:
+                if params['y_inter_label'] == None:
+                    if params['plot_errors'] == True:
+                        ax.errorbar(0, y_inter, yerr=y_inter_err, marker='x', color=color, capsize=3,
                                 label=f'Y-Achenabschnitt {label}\n({y_inter_str}±{y_inter_err_str})')  
                     else:
-                        ax.plot(0, y_inter, marker='x', color='#ffc130',
+                        ax.plot(0, y_inter, marker='x', color=color,
                                 label=f'Y-Achenabschnitt {label}\n({y_inter_str}±{y_inter_err_str})')  
-                else:  
-                    if plot_errors == True:
-                        ax.errorbar(0, y_inter, yerr=y_inter_err, marker='x', color='#ffc130', capsize=3,
-                                label=f'Y-Achenabschnitt {y_inter_label}\n({y_inter_str}±{y_inter_err_str})') 
-                    else:
-                        ax.plot(0, y_inter, marker='x', color='#ffc130', 
-                                label=f'Y-Achenabschnitt {y_inter_label}\n({y_inter_str}±{y_inter_err_str})') 
                 
+            # X-Achsenabschnitt plotten
+            if params['x_inter_label'] != None:
+                labellegend = params['x_inter_label'] # Makes custom labels possible
+            if params['plot_x_inter']:
+                if params['x_inter_label'] == None:
+                    if params['plot_errors'] == True:
+                        ax.errorbar(x_inter, 0, xerr=x_inter_err, marker='x', color=color, capsize=3,
+                                label=f'X-Achenabschnitt {label}\n({x_inter_str}±{x_inter_err_str})')  
+                    else:
+                        ax.plot(x_inter, 0, marker='x', color=color,
+                                label=f'X-Achenabschnitt {label}\n({x_inter_str}±{x_inter_err_str})')  
+
             # Fit-Ergebnisse ausgeben
             print(f"Fit-Ergebnisse für {label}:")
             print(f"Schwerpunkt: ({x_mean_str} ± {x_mean_err_str}, {y_mean_str} ± {y_mean_err_str})")
@@ -271,51 +347,61 @@ def geraden_fit(exp_nr, file_n, title='Titel', x_label='X-Achse', y_label='Y-Ach
             print(f"Y-Achsenabschnitt: {y_inter_str} ± {y_inter_err_str}\n")
     
     # Ursprungsgerade (auf begrenzte Werte angepasst)
-    overall_max_x = max(overall_max_x, max(x_val_limited))
-    if Ursprungsgerade != None :
+    if params['Ursprungsgerade'] != None:
         line_range = np.linspace(0, overall_max_x, 100)
-        plt.plot(line_range, Ursprungsgerade * line_range, color="red", linestyle="--", label=f"Ursprungsgerade (y={Ursprungsgerade}*x)")
+        plt.plot(line_range, params['Ursprungsgerade'] * line_range, color="black", linestyle="-", label=f"{params['Ursprungsgerade_title']} (m={params['Ursprungsgerade']})")
+        
+
+    # Beschränkt den Graphen auf y_max bzw. y_min
+    if 'y_max' in params and params['y_max'] is not None:
+        ax.set_ylim(top=params['y_max'])
+    if 'y_min' in params and params['y_min'] is not None:
+        ax.set_ylim(bottom=params['y_min'])
+    
 
     # Anzahl der Dezimalstellen für die Achsenlabels festlegen
-    x_format_string = f'%.{x_decimal_places}f'
-    y_format_string = f'%.{y_decimal_places}f'
+    x_format_string = f'%.{params['x_decimal_places']}f'
+    y_format_string = f'%.{params['y_decimal_places']}f'
     ax.xaxis.set_major_formatter(FormatStrFormatter(x_format_string))
     ax.yaxis.set_major_formatter(FormatStrFormatter(y_format_string))
     
     # Haupt- und Nebenticks setzen
-    if x_major_ticks != None:
-        ax.xaxis.set_major_locator(MultipleLocator(x_major_ticks))
-    if x_minor_ticks != None:
-        ax.xaxis.set_minor_locator(MultipleLocator(x_minor_ticks))
-    if y_major_ticks != None:
-        ax.yaxis.set_major_locator(MultipleLocator(y_major_ticks))
-    if y_minor_ticks != None:
-        ax.yaxis.set_minor_locator(MultipleLocator(y_minor_ticks))
+    if params['x_major_ticks'] != None:
+        ax.xaxis.set_major_locator(MultipleLocator(params['x_major_ticks']))
+    if params['x_minor_ticks'] != None:
+        ax.xaxis.set_minor_locator(MultipleLocator(params['x_minor_ticks']))
+    if params['y_major_ticks'] != None:
+        ax.yaxis.set_major_locator(MultipleLocator(params['y_major_ticks']))
+    if params['y_minor_ticks'] != None:
+        ax.yaxis.set_minor_locator(MultipleLocator(params['y_minor_ticks']))
 
     # Rasterlinien anpassen
-    if x_major_ticks != None or y_major_ticks != None:
+    if params['x_major_ticks'] != None or params['y_major_ticks'] != None:
         ax.grid(which='major', color='grey', linestyle='-', linewidth=0.75)
-    if x_minor_ticks != None or y_minor_ticks != None:
+    if params['x_minor_ticks'] != None or params['y_minor_ticks'] != None:
         ax.grid(which='minor', color='lightgrey', linestyle=':', linewidth=0.5)
 
-    # Wissenschaftliche Notation für Ticks aktivieren
-    formatter = ScalarFormatter(useMathText=True)
-    formatter.set_scientific(True)
-    formatter.set_powerlimits(scientific_limits)
+    def scientific_formatter(x, pos):
+        if abs(x) < 1e-3 or abs(x) >= 1e4:  # Customize these thresholds
+            return f'{x:.1e}'
+        else:
+            return f'{x:.1f}'  # Regular formatting for numbers in the middle range
 
-    ax.xaxis.set_major_formatter(formatter)
-    ax.yaxis.set_major_formatter(formatter)
+    ax.xaxis.set_major_formatter(FuncFormatter(scientific_formatter))
+    ax.yaxis.set_major_formatter(FuncFormatter(scientific_formatter))
     
     # Achsenbeschriftungen und Titel
-    ax.set_xlabel(x_label)
-    ax.set_ylabel(y_label)
-    ax.set_title(title)
+    ax.set_xlabel(params['x_label'])
+    ax.set_ylabel(params['y_label'])
+    ax.set_title(params['title'])
     
     # Legende anzeigen
-    ax.legend(loc=legendlocation)
+    if params['legendlocation'] == 'outside right':
+        ax.legend(loc='center left', bbox_to_anchor=(1.05, 0.5))
+    elif params['legendlocation'] != None:
+        ax.legend(loc=params['legendlocation'])
     
-    if save:
-        plt.savefig(f'{exp_nr}_gf_{file_n}.png', bbox_inches='tight')
+    if params['save']:
+        plt.savefig(f'{file_n}.png', bbox_inches='tight')
     
     plt.show()
-
