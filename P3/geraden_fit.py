@@ -271,7 +271,8 @@ def geraden_fit(file_n, config=config_1, **kwargs):
             # We calculate a temporary gradient by the means of the linear fit formulas of A1. As we have to consider the errors of both x and y values, 
             # we use the temporary gradient to calibrate the x_err values to the y_err values. Then we calculate the length of the joint x_err and y_err vector.
             # This is then used in the calculation instead of the y_err values solely. This gives results that regard the errors of both x and y values.
-            
+            # The generall procedure is calles minimization of the squares. You can read more about it on this website: https://www.sherrytowers.com/cowan_statistical_data_analysis.pdf
+
             tempo_grad_y = (mean_calc(x_val_limited * y_val_limited, y_err_limited) - mean_calc(x_val_limited, y_err_limited) * mean_calc(y_val_limited, y_err_limited)) /(mean_calc(np.square(x_val_limited), y_err_limited) - np.square(mean_calc(x_val_limited, y_err_limited)))
             tempo_grad_x = (mean_calc(x_val_limited * y_val_limited, x_err_limited) - mean_calc(x_val_limited, x_err_limited) * mean_calc(y_val_limited, x_err_limited)) /(mean_calc(np.square(x_val_limited), x_err_limited) - np.square(mean_calc(x_val_limited, x_err_limited)))
             print(tempo_grad_y, tempo_grad_x)
