@@ -230,6 +230,7 @@ def geraden_fit(file_n, config=config_1, **kwargs):
         marker = params['y_markers'][i % len(params['y_markers'])]
         color = params['y_colors'][i % len(params['y_colors'])]
 
+        labellegend = label
         if params['linear_fit']: # If linear Fit is enabled, we disable the legend because of double structures.
             labellegend="_nolegend_"
         if params['plot_errors'] == True:
