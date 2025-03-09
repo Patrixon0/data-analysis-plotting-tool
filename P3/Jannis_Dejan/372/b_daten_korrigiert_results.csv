@@ -1,4 +1,4 @@
-T^4-T0^4 [10^8*K^4],err_T^4-T0^4 [10^8*K^4],Phi/A_sp[W/m^2],err_Phi/A_sp[W/m^2],Phi/A_ma[W/m^2],err_Phi/A_ma[W/m^2],Phi/A_we[W/m^2],err_Phi/A_we[W/m^2],Phi/A_sw[W/m^2],err_Phi/A_sw[W/m^2]
+$T^4-T_0^4 [10^8*K^4]$,err_$T^4-T_0^4 [10^8*K^4]$,Phi/A_sp[W/m^2],err_Phi/A_sp[W/m^2],Phi/A_ma[W/m^2],err_Phi/A_ma[W/m^2],Phi/A_we[W/m^2],err_Phi/A_we[W/m^2],Phi/A_sw[W/m^2],err_Phi/A_sw[W/m^2]
 1.05,0.74,0.0,0.03,0.0,0.03,1.0,0.03,0.97,0.03
 6.48,0.76,0.17,0.03,0.4,0.03,2.63,0.03,2.53,0.03
 12.18,0.78,0.27,0.03,0.7,0.03,4.33,0.03,4.2,0.03
