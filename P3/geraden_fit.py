@@ -379,7 +379,8 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     # Wissenschaftliche Notation für Ticks aktivieren
     formatter = ScalarFormatter(useMathText=True)
     formatter.set_scientific(True)
-    formatter.set_powerlimits(params['scientific_limits'])
+    #formatter.set_powerlimits(params['scientific_limits'])\
+    formatter.set_powerlimits((-3, 3))
 
     ax.xaxis.set_major_formatter(formatter)
     ax.yaxis.set_major_formatter(formatter)
@@ -390,7 +391,8 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     ax.set_title(params['title'])
     
     # Legende anzeigen
-    ax.legend(loc=params['legendlocation'])
+    if params['legendlocation'] != None:
+        ax.legend(loc=params['legendlocation'])
     
     if params['save']:
         plt.savefig(f'{file_n}.png', bbox_inches='tight')
