@@ -372,7 +372,7 @@ def geraden_fit(file_n, config=config_1, **kwargs):
         line_range = np.linspace(0, overall_max_x, 100)
         plt.plot(line_range, params['Ursprungsgerade'] * line_range, color="black", linestyle="-", label=f"{params['Ursprungsgerade_title']} (m={params['Ursprungsgerade']})")
         
-
+ 
     # Beschränkt den Graphen auf y_max bzw. y_min
     if 'y_max' in params and params['y_max'] is not None:
         ax.set_ylim(top=params['y_max'])
