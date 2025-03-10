@@ -120,8 +120,8 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     - Ursprungsgerade (float, optional): Erstellt Ursprungsgerade mit Steigung Ursprungsgerade. Standard: None.
     - Ursprungsgerade_title (str,optional): Bennenug der Ursprungsgeraden in der Legende. Standart: Ursprungsgerade
     - plot_errors (bool, optional): Ob Fehler auch geplotted werden. Standard: True.
-    - x_axis (float, optional): Position der vertikalen Linie bei x=0. Standard: 0.
-    - y_axis (float, optional): Position der horizontalen Linie bei y=0. Standard: 0.
+    - x_axis (float, optional): Position der horizontalen Linie bei y=0. Standard: 0.
+    - y_axis (float, optional): Position der vertikalen Linie bei x=0. Standard: 0.
     - x_major_ticks (float, optional): Abstand zwischen den Hauptticks der X-Achse. Standard: None.
     - x_minor_ticks (float, optional): Abstand zwischen den Nebenticks der X-Achse. Standard: None.
     - y_major_ticks (float, optional): Abstand zwischen den Hauptticks der Y-Achse. Standard: None.
@@ -204,8 +204,8 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     fig, ax = plt.subplots(figsize=(params['length'], params['height']))
     
     # Achsen bei x=0 und y=0 hinzufügen
-    ax.axhline(params['y_axis'], color='black', linewidth=1.5)
-    ax.axvline(params['x_axis'], color='black', linewidth=1.5)
+    ax.axhline(params['x_axis'], color='black', linewidth=1.5)
+    ax.axvline(params['y_axis'], color='black', linewidth=1.5)
     
     # Begrenzter Wertebereich für die Ursprungsgerade initialisieren
     overall_min_x = np.inf
@@ -230,6 +230,7 @@ def geraden_fit(file_n, config=config_1, **kwargs):
         marker = params['y_markers'][i % len(params['y_markers'])]
         color = params['y_colors'][i % len(params['y_colors'])]
 
+        labellegend = label
         if params['linear_fit']: # If linear Fit is enabled, we disable the legend because of double structures.
             labellegend="_nolegend_"
         if params['plot_errors'] == True:
@@ -240,6 +241,10 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     
         if params['linear_fit']:
             # Berechnungen der Ausgleichsgeraden -unsicherheit und des Mittelwerts 
+            
+            '''
+            ------> This is the old version of the calculation, which is not working correctly <------
+
             
             #This is an attempt at considering the errors of both x and y values in various calculations. This broke me, it is not working correctly as you have to consider the errors relative to the values and shit
             #xy_err_mean = mean_calc(None, 0.5*np.sqrt(np.square(y_err_limited)+np.square(x_err_limited * ((y_val_limited + 0.5*y_err_limited)/(x_val_limited + 0.5*x_err_limited))))
@@ -255,15 +260,22 @@ def geraden_fit(file_n, config=config_1, **kwargs):
             #root_xy_mean = mean_calc(x_val_limited * y_val_limited, x_err_limited)
             #root_ys_mean = mean_calc(np.square(y_val_limited), x_err_limited)
             ## Anhang A1.26
-#
             #denominator = xs_mean - np.square(x_mean)
             #grad = (xy_mean - x_mean * y_mean) / denominator
             #y_inter = (xs_mean * y_mean - x_mean * xy_mean) / denominator
             #x_inter = (root_ys_mean * root_x_mean - root_y_mean * root_xy_mean) / (root_ys_mean - np.square(root_y_mean))
             # Anhang A1.21, A1.22
-
             # Beruecksichtigung des X-Fehlers für folgende Fehlerberechnung der Geradensteigung
+            '''
             
+            # We calculate a temporary gradient by the means of the linear fit formulas of A1. As we have to consider the errors of both x and y values, 
+            # we use the temporary gradient to calibrate the x_err values to the y_err values. Then we calculate the length of the joint x_err and y_err vector.
+            # This is then used in the calculation instead of the y_err values solely. This gives results that regard the errors of both x and y values.
+            # The generall procedure is calles minimization of the squares. You can read more about it on this website: https://www.sherrytowers.com/cowan_statistical_data_analysis.pdf
+
+
+            #Theo ist ein k
+
             tempo_grad_y = (mean_calc(x_val_limited * y_val_limited, y_err_limited) - mean_calc(x_val_limited, y_err_limited) * mean_calc(y_val_limited, y_err_limited)) /(mean_calc(np.square(x_val_limited), y_err_limited) - np.square(mean_calc(x_val_limited, y_err_limited)))
             tempo_grad_x = (mean_calc(x_val_limited * y_val_limited, x_err_limited) - mean_calc(x_val_limited, x_err_limited) * mean_calc(y_val_limited, x_err_limited)) /(mean_calc(np.square(x_val_limited), x_err_limited) - np.square(mean_calc(x_val_limited, x_err_limited)))
             print(tempo_grad_y, tempo_grad_x)
@@ -372,7 +384,7 @@ def geraden_fit(file_n, config=config_1, **kwargs):
         line_range = np.linspace(0, overall_max_x, 100)
         plt.plot(line_range, params['Ursprungsgerade'] * line_range, color="black", linestyle="-", label=f"{params['Ursprungsgerade_title']} (m={params['Ursprungsgerade']})")
         
-
+ 
     # Beschränkt den Graphen auf y_max bzw. y_min
     if 'y_max' in params and params['y_max'] is not None:
         ax.set_ylim(top=params['y_max'])
