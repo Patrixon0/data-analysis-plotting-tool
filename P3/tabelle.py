@@ -103,7 +103,8 @@ def tabellen_ersteller(file_n, config=config_1, **kwargs):
             col = df.columns[col_idx]
             for idx, value in enumerate(df[col]):
                 try:
-                    formatted_value = f"{float(value):.{decimal_places}f}"
+                    # Change this line to remove trailing zeros
+                    formatted_value = f"{float(value):.{decimal_places}f}".rstrip('0').rstrip('.')
                     if params['thousands_separator']:
                         parts = formatted_value.split('.')
                         parts[0] = "{:,}".format(int(parts[0])).replace(',', '.')
@@ -113,7 +114,7 @@ def tabellen_ersteller(file_n, config=config_1, **kwargs):
                             formatted_value = parts[0]
                     formatted_df.at[idx, col] = formatted_value
                 except (ValueError, TypeError):
-                    # Bei nicht-numerischen Werten unverändert lassen
+                    # For non-numeric values, leave unchanged
                     pass
     
     # Wissenschaftliche Notation für bestimmte Spalten

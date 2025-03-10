@@ -1,31 +1,31 @@
 import numpy as np
 import os
-from decimal import Decimal, ROUND_HALF_UP, getcontext
+import csv
+from decimal import Decimal, ROUND_HALF_UP, getcontext, InvalidOperation
 
 def runden_und_speichern(pfad_zur_eingabedatei, suffix='rounded'):
     """
-    Diese Funktion rundet Messwerte und zugehörige Fehler in einer Eingabedatei nach wissenschaftlichen 
-    Kriterien und speichert die gerundeten Ergebnisse in einer neuen Datei.
+    Diese Funktion rundet Messwerte und zugehörige Fehler in einer CSV-Eingabedatei nach wissenschaftlichen 
+    Kriterien und speichert die gerundeten Ergebnisse in einer neuen CSV-Datei.
 
     Parameter:
-    - pfad_zur_eingabedatei (str): Pfad zur Datei mit den Eingabedaten. Die Daten sollten als Paare 
+    - pfad_zur_eingabedatei (str): Pfad zur CSV-Datei mit den Eingabedaten. Die Daten sollten als Paare 
       von Messwert und Fehler organisiert sein.
     - suffix (str, optional): Suffix, das an den Namen der Ausgabedatei angehängt wird. Standard: 'rounded'.
 
     Beschreibung:
-    - Die Funktion liest die Datei Zeile für Zeile ein und interpretiert die Werte als Paare von 
+    - Die Funktion liest die CSV-Datei ein und interpretiert die Werte als Paare von 
       Messwerten und Fehlern.
+    - Die erste Zeile wird immer als Kopfzeile behandelt.
     - Für jede Paarung wird der Messwert auf dieselbe Dezimalstelle wie der Fehler gerundet, 
       basierend auf den Regeln der wissenschaftlichen Notation.
-    - Die gerundeten Daten werden in einer neuen Datei gespeichert, die im selben Verzeichnis wie 
+    - Die gerundeten Daten werden in einer neuen CSV-Datei gespeichert, die im selben Verzeichnis wie 
       die Eingabedatei liegt und das angegebene Suffix enthält.
-    - Optional kann eine Kopfzeile (mit einem `#` beginnend) aus der Eingabedatei beibehalten werden.
 
     Rückgabewert:
-    - Speichert die gerundeten Daten in einer neuen Datei und gibt eine Erfolgsmeldung mit dem 
+    - Speichert die gerundeten Daten in einer neuen CSV-Datei und gibt eine Erfolgsmeldung mit dem 
       Pfad zur Ausgabedatei aus.
     """
-
 
     # Erhöhen der Präzision, um Genauigkeitsverluste zu vermeiden
     getcontext().prec = 28
@@ -94,55 +94,80 @@ def runden_und_speichern(pfad_zur_eingabedatei, suffix='rounded'):
     output_filename = f"{name}_{suffix}{ext}"
     output_file = os.path.join(directory, output_filename)
 
-    # Lesen der Daten aus der Eingabedatei
-    with open(input_file, 'r') as f:
-        lines = f.readlines()
+    # Überprüfen der Dateiendung und bei Bedarf korrigieren
+    if ext.lower() != '.csv':
+        print(f"Warnung: Die Eingabedatei hat nicht die Endung .csv. Ausgabedatei wird als {name}_{suffix}.csv gespeichert.")
+        output_file = os.path.join(directory, f"{name}_{suffix}.csv")
 
-    # Überprüfen, ob die erste Zeile eine Kopfzeile ist
-    header = ''
-    if lines[0].startswith('#'):
+    # CSV-Datei einlesen
+    with open(input_file, 'r', newline='') as csvfile:
+        csv_reader = csv.reader(csvfile)
+        lines = list(csv_reader)
+
+    # Immer die erste Zeile als Kopfzeile behandeln
+    if lines:
         header = lines[0]
         data_lines = lines[1:]
     else:
-        data_lines = lines
+        header = []
+        data_lines = []
 
     # Verarbeitung der Daten
     rounded_data = []
-    decimal_places_data = []
     for line in data_lines:
-        if line.strip() == '':
-            continue  # Überspringe leere Zeilen
-        values = line.strip().split()
-        # Konvertiere Werte in Decimal-Objekte
-        values = [Decimal(val) for val in values]
+        if not any(line):  # Überspringe leere Zeilen
+            continue
+        
+        # Bereinige die Werte von speziellen Zeichen wie Sternchen
+        cleaned_values = []
+        original_values = []
+        for val in line:
+            original_values.append(val)
+            # Entferne Sonderzeichen wie Sternchen (*) und behalte nur numerische Werte
+            cleaned_val = val.strip().replace('*', '').strip()
+            if cleaned_val:
+                cleaned_values.append(cleaned_val)
+        
+        # Konvertiere die bereinigten Werte in Decimal-Objekte
+        decimal_values = []
+        try:
+            for val in cleaned_values:
+                decimal_values.append(Decimal(val))
+        except (InvalidOperation, ValueError) as e:
+            print(f"Warnung: Konnte einen Wert nicht in Decimal konvertieren: {cleaned_values}. Fehler: {str(e)}")
+            continue
+        
         # Nehmen wir an, dass die Daten in Paaren von Wert und Fehler organisiert sind
         rounded_line = []
-        decimal_places_line = []
-        for i in range(0, len(values), 2):
-            val = values[i]
-            err = values[i+1]
-            rounded_vals, rounded_errs, dp_vals, dp_errs = round_measurements([val], [err])
-            rounded_line.extend([rounded_vals[0], rounded_errs[0]])
-            decimal_places_line.extend([dp_vals[0], dp_errs[0]])
-        rounded_data.append(rounded_line)
-        decimal_places_data.append(decimal_places_line)
+        if len(decimal_values) % 2 == 0:  # Überprüfe, ob die Anzahl der Werte gerade ist
+            original_index = 0
+            for i in range(0, len(decimal_values), 2):
+                val = decimal_values[i]
+                err = decimal_values[i+1]
+                rounded_vals, rounded_errs, _, _ = round_measurements([val], [err])
+                
+                # Führe die Zeichen wie Sternchen wieder ein
+                val_original = original_values[original_index]
+                err_original = original_values[original_index + 1]
+                
+                val_prefix = ''.join([c for c in val_original if not (c.isdigit() or c == '.' or c == '-' or c == '+' or c == 'e' or c == 'E')])
+                err_prefix = ''.join([c for c in err_original if not (c.isdigit() or c == '.' or c == '-' or c == '+' or c == 'e' or c == 'E')])
+                
+                # Füge die Präfixe zu den gerundeten Werten hinzu
+                rounded_line.extend([val_prefix + str(rounded_vals[0]), err_prefix + str(rounded_errs[0])])
+                original_index += 2
+            
+            rounded_data.append(rounded_line)
+        else:
+            print(f"Warnung: Zeile mit ungerader Anzahl von Werten übersprungen: {cleaned_values}")
 
-    # Schreiben der gerundeten Daten in die Ausgabedatei
-    with open(output_file, 'w') as f:
-        if header:
-            f.write(header)
-        for rounded_line, decimal_places_line in zip(rounded_data, decimal_places_data):
-            formatted_numbers = []
-            for val, dp in zip(rounded_line, decimal_places_line):
-                if dp is None:
-                    val_str = str(val)
-                else:
-                    # Verwende quantize, um die gewünschte Anzahl von Dezimalstellen zu erzwingen
-                    format_str = Decimal('1e-{0}'.format(dp))
-                    val_quantized = val.quantize(format_str)
-                    val_str = format(val_quantized, 'f')
-                formatted_numbers.append(val_str)
-            rounded_line_str = ' '.join(formatted_numbers)
-            f.write(rounded_line_str + '\n')
+    # Schreiben der gerundeten Daten in die Ausgabe-CSV-Datei
+    with open(output_file, 'w', newline='') as csvfile:
+        csv_writer = csv.writer(csvfile)
+        # Immer die Kopfzeile schreiben
+        csv_writer.writerow(header)
+        
+        for rounded_line in rounded_data:
+            csv_writer.writerow(rounded_line)
 
-    print(f'Die gerundeten Daten wurden in der Datei "{output_file}" gespeichert.')
+    print(f'Die gerundeten Daten wurden in der CSV-Datei "{output_file}" gespeichert.')
