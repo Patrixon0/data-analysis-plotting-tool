@@ -39,8 +39,10 @@ class GeradeConfig:
         height: float = 5,
         size: float = 1,
         delimiter: str = ',',
-        y_max: Optional[float] = None,
         y_min: Optional[float] = None,
+        y_max: Optional[float] = None,
+        x_min: Optional[float] = None,
+        x_max: Optional[float] = None,
     ):
         """
         Configuration parameters for the geraden_fit function.
@@ -79,8 +81,10 @@ class GeradeConfig:
             height: Figure height in inches
             size: Size of markers
             delimiter: Delimiter for CSV files
-            y_max: Upper limit of Y-axis
             y_min: Lower limit of Y-axis
+            y_max: Upper limit of Y-axis
+            x_min: Lower limit of X-axis
+            x_max: Upper limit of X-axis
         """
         self.title = title
         self.x_label = x_label
@@ -115,8 +119,10 @@ class GeradeConfig:
         self.height = height
         self.size = size
         self.delimiter = delimiter
-        self.y_max = y_max
         self.y_min = y_min
+        self.y_max = y_max
+        self.x_min = x_min
+        self.x_max = x_max
 
 config_1 = GeradeConfig(
     title = "Messwerte mit Fehlerbalken",
@@ -152,6 +158,8 @@ config_1 = GeradeConfig(
     height = 5,
     size = 1,
     delimiter = ",",
+    y_min = None,
     y_max = None,
-    y_min = None
+    x_min = None,
+    x_max = None
 )

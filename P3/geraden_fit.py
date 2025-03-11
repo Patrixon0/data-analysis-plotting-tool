@@ -142,6 +142,8 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     - delimiter (str, optional): Trennzeichen für CSV-Dateien. Standard: ','.
     - y_max (float, optional): Obere Begrenzung der Y-Achse. Standard: None (keine Begrenzung).
     - y_min (float, optional): Untere Begrenzung der Y-Achse. Standard: None (keine Begrenzung).
+    - x_max (float, optional): Obere Begrenzung der X-Achse. Standard: None (keine Begrenzung).
+    - x_min (float, optional): Untere Begrenzung der X-Achse. Standard: None (keine Begrenzung).
     """
 
     # If config provided, use its values as defaults
@@ -391,10 +393,15 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     if 'y_min' in params and params['y_min'] is not None:
         ax.set_ylim(bottom=params['y_min'])
     
+    # Beschränkt den Graphen auf x_max bzw. x_min
+    if 'x_max' in params and params['x_max'] is not None:
+        ax.set_xlim(right=params['x_max'])
+    if 'x_min' in params and params['x_min'] is not None:
+        ax.set_xlim(left=params['x_min'])
 
     # Anzahl der Dezimalstellen für die Achsenlabels festlegen
-    x_format_string = f'%.{params['x_decimal_places']}f'
-    y_format_string = f'%.{params['y_decimal_places']}f'
+    x_format_string = f'%.{params["x_decimal_places"]}f'
+    y_format_string = f'%.{params["y_decimal_places"]}f'
     ax.xaxis.set_major_formatter(FormatStrFormatter(x_format_string))
     ax.yaxis.set_major_formatter(FormatStrFormatter(y_format_string))
     
