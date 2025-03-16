@@ -3,6 +3,11 @@ import numpy as np
 import os
 import csv
 import pandas as pd
+import sys
+# Add the correct path to the P2 folder
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), '..', '..')))
+
+from scientific_error_rounder import round_measurements
 
 def gaussian_error_propagation(formula, variables, result_lenght=4, output=True, for_file=False):
     """
@@ -50,6 +55,12 @@ def gaussian_error_propagation(formula, variables, result_lenght=4, output=True,
     
     # calculate error value
     error_result=sp.sqrt(sum([expr.subs(val_dict).evalf() for expr in error_sums_v]))
+
+    rnd_formula_value,rnd_error_result,_,_=round_measurements([formula_value],[error_result])
+
+    rnd_formula_value,rnd_error_result=float(rnd_formula_value[0]),float(rnd_error_result[0])  
+
+    accuracy=rnd_error_result/rnd_formula_value
     
     if for_file:
         return(error_formula)
@@ -58,7 +69,8 @@ def gaussian_error_propagation(formula, variables, result_lenght=4, output=True,
     if output:
         print(f'Formel: {formula}\nWerte: {variables} \n\nFormelwert: {formula_value}\n')
         print(f'Fehlerformel: {error_formula}')
-        print(f'Fehler: {error_result} \nErgebnis: {round(formula_value,result_lenght)}±{round(error_result,result_lenght)}')
+        print(f'Fehler: {error_result} \nErgebnis: {rnd_formula_value}±{rnd_error_result}')
+        print(f'Das Ergebnis hat eine Genauigkeit von {round(accuracy*100,3)}%')
         return(None)
     else:
         return(formula_value, error_result)
