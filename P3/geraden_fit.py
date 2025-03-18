@@ -1,4 +1,6 @@
 import numpy as np
+import sympy as sp
+import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator, FormatStrFormatter, ScalarFormatter, FuncFormatter
 import pandas as pd
@@ -385,7 +387,37 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     if params['Ursprungsgerade'] != None:
         line_range = np.linspace(0, overall_max_x, 100)
         plt.plot(line_range, params['Ursprungsgerade'] * line_range, color="black", linestyle="-", label=f"{params['Ursprungsgerade_title']} (m={params['Ursprungsgerade']})")
+
+    # Formeln plotten, falls vorhanden und aktiviert
+    if params.get('plot_formula', False) and params.get('formula') is not None and params.get('var_names') is not None and params.get('formula_values') is not None:
+        formula = params['formula']
+        var_names = params['var_names']
+        values = params['formula_values']
+        x_range = params.get('formula_x_range', (-10, 10))
+        points = params.get('formula_points', 1000)
         
+        # Extrahiere die unabhängige Variable (normalerweise die letzte in var_names)
+        ind_var = var_names[-1]
+        
+        # Erstelle ein Wörterbuch mit den Werten für alle Variablen außer der unabhängigen
+        var_values = {var: val for var, val in zip(var_names[:-1], values)}
+        
+        # Erstelle x-Werte für den Plot
+        x_vals = np.linspace(x_range[0], x_range[1], points)
+        
+        # Plotte jede Formel in der Liste
+        for i, expr in enumerate(formula):
+            # Ersetze die Variablen durch ihre Werte
+            expr_with_values = expr.subs(var_values)
+            
+            # Konvertiere den SymPy-Ausdruck in eine NumPy-Funktion
+            f = sp.lambdify(ind_var, expr_with_values, "numpy")
+            
+            # Berechne die y-Werte
+            y_vals = f(x_vals)
+            
+            # Plotte die Funktion
+            ax.plot(x_vals, y_vals, label=f"Formel: {expr_with_values}")
  
     # Beschränkt den Graphen auf y_max bzw. y_min
     if 'y_max' in params and params['y_max'] is not None:
