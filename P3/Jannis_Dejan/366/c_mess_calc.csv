@@ -1,4 +1,4 @@
-lambda [nm],err_lambda [nm], alpha [deg],err_alpha [deg]
+lambda [nm],err_lambda [nm], delta [deg],err_delta [deg]
 404.66,1e-7, 52.3,0.05
 435.83,1e-7, 51.4,0.05
 467.81,1e-7, 50.7333333333,0.05
