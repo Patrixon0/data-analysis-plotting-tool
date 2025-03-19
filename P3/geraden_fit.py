@@ -121,6 +121,10 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     - x_inter_label (str, optional): Label für den X-Achsenabschnitt. Standard: None.
     - Ursprungsgerade (float, optional): Erstellt Ursprungsgerade mit Steigung Ursprungsgerade. Standard: None.
     - Ursprungsgerade_title (str,optional): Bennenug der Ursprungsgeraden in der Legende. Standart: Ursprungsgerade
+    - x_lines: List of tuples (position, width, color, alpha) for vertical lines and optional shading
+    - y_lines: List of tuples (position, width, color, alpha) for horizontal lines and optional shading
+    - default_line_color: Default color for lines if not specified in tuples
+    - default_shade_alpha: Default transparency for shaded areas if not specified in tuples
     - plot_errors (bool, optional): Ob Fehler auch geplotted werden. Standard: True.
     - x_axis (float, optional): Position der horizontalen Linie bei y=0. Standard: 0.
     - y_axis (float, optional): Position der vertikalen Linie bei x=0. Standard: 0.
@@ -418,7 +422,55 @@ def geraden_fit(file_n, config=config_1, **kwargs):
             
             # Plotte die Funktion
             ax.plot(x_vals, y_vals, label=f"Formel: {expr_with_values}")
- 
+    
+    # Draw vertical x-lines and shaded areas if specified
+    if 'x_lines' in params and params['x_lines'] is not None:
+        y_lims = ax.get_ylim()  # Get current y axis limits
+        for x_entry in params['x_lines']:
+            # Extract parameters with defaults
+            if len(x_entry) == 2:
+                x_pos, width = x_entry
+                color = params.get('default_line_color', 'red')
+                alpha = params.get('default_shade_alpha', 0.2)
+            elif len(x_entry) == 3:
+                x_pos, width, color = x_entry
+                alpha = params.get('default_shade_alpha', 0.2)
+            elif len(x_entry) >= 4:
+                x_pos, width, color, alpha = x_entry[:4]
+            
+            # Draw the line
+            ax.axvline(x=x_pos, color=color, linestyle='-', linewidth=1.5, 
+                    label="_nolegend_")
+            
+            # Add shaded area if width > 0
+            if width > 0:
+                ax.axvspan(x_pos - width, x_pos + width, alpha=alpha, 
+                        color=color, label=f'x = {x_pos}±{width}')
+
+    # Draw horizontal y-lines and shaded areas if specified
+    if 'y_lines' in params and params['y_lines'] is not None:
+        x_lims = ax.get_xlim()  # Get current x axis limits
+        for y_entry in params['y_lines']:
+            # Extract parameters with defaults
+            if len(y_entry) == 2:
+                y_pos, width = y_entry
+                color = params.get('default_line_color', 'red')
+                alpha = params.get('default_shade_alpha', 0.2)
+            elif len(y_entry) == 3:
+                y_pos, width, color = y_entry
+                alpha = params.get('default_shade_alpha', 0.2)
+            elif len(y_entry) >= 4:
+                y_pos, width, color, alpha = y_entry[:4]
+            
+            # Draw the line
+            ax.axhline(y=y_pos, color=color, linestyle='-', linewidth=1.5,
+                    label="_nolegend_")
+            
+            # Add shaded area if width > 0
+            if width > 0:
+                ax.axhspan(y_pos - width, y_pos + width, alpha=alpha,
+                        color=color, label=f'y = {y_pos}±{width}')
+
     # Beschränkt den Graphen auf y_max bzw. y_min
     if 'y_max' in params and params['y_max'] is not None:
         ax.set_ylim(top=params['y_max'])
