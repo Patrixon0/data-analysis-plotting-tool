@@ -1,0 +1,3 @@
+[submodule "physics-experiment-eval-tool"]
+	path = physics-experiment-eval-tool
+	url = https://github.com/Patrixon0/physics-experiment-eval-tool.git
