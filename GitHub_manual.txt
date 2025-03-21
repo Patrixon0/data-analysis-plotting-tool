@@ -1,0 +1,230 @@
+## Table of Contents
+1. Initial Setup
+2. Basic Git Concepts
+3. Cloning the Repository
+4. Working with Branches
+5. Making Changes and Committing
+6. Pushing and Pulling
+7. Working with Submodules
+8. Resolving Merge Conflicts
+9. Common Issues and Troubleshooting
+
+## 1. Initial Setup
+
+### Installing Git
+1. Download Git from [https://git-scm.com/downloads](https://git-scm.com/downloads)
+2. Install with default settings
+3. Verify installation by opening a terminal (Command Prompt on Windows) and typing: `git --version`
+
+### Installing Visual Studio Code
+1. Download VS Code from [https://code.visualstudio.com/](https://code.visualstudio.com/)
+2. Install with default settings
+3. Open VS Code after installation
+
+### Configure Git
+Open a terminal or command prompt and set up your identity:
+```
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+```
+
+### Create a GitHub Account
+1. Go to [https://github.com/](https://github.com/)
+2. Click "Sign up" and follow the instructions
+
+## 2. Basic Git Concepts
+
+- **Repository (Repo)**: A project containing files and the history of changes to those files
+- **Commit**: A snapshot of changes at a specific point in time
+- **Branch**: A parallel version of the repository
+- **Main/Master**: The default and primary branch
+- **Clone**: Creating a local copy of a remote repository
+- **Pull**: Getting the latest changes from the remote repository
+- **Push**: Sending your local changes to the remote repository
+- **Merge**: Combining changes from different branches
+- **Submodule**: A repository inside another repository
+
+## 3. Cloning the Repository
+
+### Via VS Code
+1. Open VS Code
+2. Press `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (Mac) to open the command palette
+3. Type "Git: Clone" and select it
+4. Paste your repository URL (e.g., https://github.com/username/repository-name.git)
+5. Select a folder on your computer to save the repository
+6. When prompted, open the cloned repository
+
+### Via Command Line
+1. Open a terminal or command prompt
+2. Navigate to where you want to store the repository
+3. Run: `git clone https://github.com/username/repository-name.git`
+4. Navigate into the new folder: `cd repository-name`
+
+## 4. Working with Branches
+
+### Creating a New Branch
+In VS Code:
+1. Click on the branch name in the bottom-left corner
+2. Click "Create new branch" from the dropdown
+3. Enter a name for your branch
+4. Press Enter
+
+Via command line:
+```
+git checkout -b new-branch-name
+```
+
+### Switching Branches
+In VS Code:
+1. Click on the branch name in the bottom-left corner
+2. Select the branch you want to switch to
+
+Via command line:
+```
+git checkout branch-name
+```
+
+## 5. Making Changes and Committing
+
+### Editing Files
+1. Open files in VS Code and make your changes
+2. Save the files (`Ctrl+S` or `Cmd+S`)
+
+### Staging Changes
+In VS Code:
+1. Go to the Source Control tab (Ctrl+Shift+G or Cmd+Shift+G)
+2. Review your changes
+3. Click the + (plus) icon next to each file you want to stage, or click the + icon at the top of the Changes section to stage all changes
+
+Via command line:
+```
+git add filename.ext    # Add specific file
+git add .               # Add all files
+```
+
+### Committing Changes
+In VS Code:
+1. Enter a commit message in the text box
+2. Press `Ctrl+Enter` or click the checkmark to commit
+
+Via command line:
+```
+git commit -m "Your descriptive commit message"
+```
+
+## 6. Pushing and Pulling
+
+### Pulling Changes
+In VS Code:
+1. Click the circular arrows icon in the Source Control tab, or
+2. Click on the sync icon in the bottom-left status bar
+
+Via command line:
+```
+git pull origin branch-name
+```
+
+### Pushing Changes
+In VS Code:
+1. After committing, click the "Publish"/"Sync" button in the status bar, or
+2. In the Source Control tab, click "..." and select "Push"
+
+Via command line:
+```
+git push origin branch-name
+```
+
+## 7. Working with Submodules
+
+### Adding a Submodule
+Via command line:
+```
+git submodule add https://github.com/username/submodule-repo.git path/to/submodule
+```
+
+### Cloning a Repository with Submodules
+```
+git clone --recursive https://github.com/username/main-repo.git
+```
+
+### Initializing Submodules (if cloned without --recursive)
+```
+git submodule init
+git submodule update
+```
+
+### Updating Submodules
+To update all submodules to their latest commits:
+```
+git submodule update --remote
+```
+
+To update a specific submodule:
+```
+cd path/to/submodule
+git checkout main  # or master, or whatever branch you want
+git pull
+cd ..
+git add path/to/submodule
+git commit -m "Updated submodule to latest commit"
+```
+
+## 8. Resolving Merge Conflicts
+
+### When Conflicts Occur
+Conflicts happen when Git cannot automatically merge changes. You'll see files marked with conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`).
+
+### Resolving in VS Code
+1. Open the conflicted file in VS Code
+2. VS Code shows the conflicts with "Current Change" and "Incoming Change" sections
+3. Click "Accept Current Change", "Accept Incoming Change", "Accept Both Changes", or manually edit the file
+4. Save the file
+5. Stage the resolved file
+6. Complete the merge by committing
+
+### Resolving via Command Line
+1. Run `git status` to see which files have conflicts
+2. Open the files in a text editor and look for conflict markers
+3. Edit the files to resolve conflicts
+4. Save the files
+5. Run `git add .` to mark as resolved
+6. Complete the merge with `git commit`
+
+## 9. Common Issues and Troubleshooting
+
+### Authentication Issues
+- Ensure your GitHub credentials are correct
+- Consider using SSH keys or a credential manager
+
+### "Your branch is ahead of 'origin/main' by X commits"
+This means you have local commits that haven't been pushed:
+```
+git push origin branch-name
+```
+
+### "Please commit your changes or stash them before you merge"
+You have uncommitted changes. Either:
+1. Commit them: `git commit -m "Your message"`
+2. Stash them: `git stash` (retrieve later with `git stash pop`)
+
+### Unable to Push (Rejected)
+Someone else pushed changes before you:
+```
+git pull origin branch-name
+# Resolve any conflicts
+git push origin branch-name
+```
+
+### Accidentally Committed to the Wrong Branch
+1. Stash your changes: `git stash`
+2. Switch to the correct branch: `git checkout correct-branch`
+3. Apply your changes: `git stash pop`
+4. Commit to the correct branch
+
+## Additional Tips
+
+1. Use `.gitignore` to exclude files that shouldn't be tracked (e.g., personal settings, build artifacts)
+2. Commit often with clear messages
+3. Pull before starting work to avoid conflicts
+4. Create a new branch for each task or feature
+5. Install the Git History extension in VS Code for visualizing changes
