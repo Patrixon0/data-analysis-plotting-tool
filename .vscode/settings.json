@@ -17,5 +17,8 @@
     },
     "[csv]": {
         "editor.inlayHints.maximumLength": 0
-    }
+    },
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/physics-experiment-eval-tool"
+    ]
 }
