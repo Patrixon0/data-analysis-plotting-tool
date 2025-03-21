@@ -1,4 +1,6 @@
 import numpy as np
+import sympy as sp
+import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator, FormatStrFormatter, ScalarFormatter, FuncFormatter
 import pandas as pd
@@ -119,6 +121,10 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     - x_inter_label (str, optional): Label für den X-Achsenabschnitt. Standard: None.
     - Ursprungsgerade (float, optional): Erstellt Ursprungsgerade mit Steigung Ursprungsgerade. Standard: None.
     - Ursprungsgerade_title (str,optional): Bennenug der Ursprungsgeraden in der Legende. Standart: Ursprungsgerade
+    - x_lines: List of tuples (position, width, color, alpha) for vertical lines and optional shading
+    - y_lines: List of tuples (position, width, color, alpha) for horizontal lines and optional shading
+    - default_line_color: Default color for lines if not specified in tuples
+    - default_shade_alpha: Default transparency for shaded areas if not specified in tuples
     - plot_errors (bool, optional): Ob Fehler auch geplotted werden. Standard: True.
     - x_axis (float, optional): Position der horizontalen Linie bei y=0. Standard: 0.
     - y_axis (float, optional): Position der vertikalen Linie bei x=0. Standard: 0.
@@ -385,8 +391,86 @@ def geraden_fit(file_n, config=config_1, **kwargs):
     if params['Ursprungsgerade'] != None:
         line_range = np.linspace(0, overall_max_x, 100)
         plt.plot(line_range, params['Ursprungsgerade'] * line_range, color="black", linestyle="-", label=f"{params['Ursprungsgerade_title']} (m={params['Ursprungsgerade']})")
+
+    # Formeln plotten, falls vorhanden und aktiviert
+    if params.get('plot_formula', False) and params.get('formula') is not None and params.get('var_names') is not None and params.get('formula_values') is not None:
+        formula = params['formula']
+        var_names = params['var_names']
+        values = params['formula_values']
+        x_range = params.get('formula_x_range', (-10, 10))
+        points = params.get('formula_points', 1000)
         
- 
+        # Extrahiere die unabhängige Variable (normalerweise die letzte in var_names)
+        ind_var = var_names[-1]
+        
+        # Erstelle ein Wörterbuch mit den Werten für alle Variablen außer der unabhängigen
+        var_values = {var: val for var, val in zip(var_names[:-1], values)}
+        
+        # Erstelle x-Werte für den Plot
+        x_vals = np.linspace(x_range[0], x_range[1], points)
+        
+        # Plotte jede Formel in der Liste
+        for i, expr in enumerate(formula):
+            # Ersetze die Variablen durch ihre Werte
+            expr_with_values = expr.subs(var_values)
+            
+            # Konvertiere den SymPy-Ausdruck in eine NumPy-Funktion
+            f = sp.lambdify(ind_var, expr_with_values, "numpy")
+            
+            # Berechne die y-Werte
+            y_vals = f(x_vals)
+            
+            # Plotte die Funktion
+            ax.plot(x_vals, y_vals, label=f"Formel: {expr_with_values}")
+    
+    # Draw vertical x-lines and shaded areas if specified
+    if 'x_lines' in params and params['x_lines'] is not None:
+        y_lims = ax.get_ylim()  # Get current y axis limits
+        for x_entry in params['x_lines']:
+            # Extract parameters with defaults
+            if len(x_entry) == 2:
+                x_pos, width = x_entry
+                color = params.get('default_line_color', 'red')
+                alpha = params.get('default_shade_alpha', 0.2)
+            elif len(x_entry) == 3:
+                x_pos, width, color = x_entry
+                alpha = params.get('default_shade_alpha', 0.2)
+            elif len(x_entry) >= 4:
+                x_pos, width, color, alpha = x_entry[:4]
+            
+            # Draw the line
+            ax.axvline(x=x_pos, color=color, linestyle='-', linewidth=1.5, 
+                    label="_nolegend_")
+            
+            # Add shaded area if width > 0
+            if width > 0:
+                ax.axvspan(x_pos - width, x_pos + width, alpha=alpha, 
+                        color=color, label=f'x = {x_pos}±{width}')
+
+    # Draw horizontal y-lines and shaded areas if specified
+    if 'y_lines' in params and params['y_lines'] is not None:
+        x_lims = ax.get_xlim()  # Get current x axis limits
+        for y_entry in params['y_lines']:
+            # Extract parameters with defaults
+            if len(y_entry) == 2:
+                y_pos, width = y_entry
+                color = params.get('default_line_color', 'red')
+                alpha = params.get('default_shade_alpha', 0.2)
+            elif len(y_entry) == 3:
+                y_pos, width, color = y_entry
+                alpha = params.get('default_shade_alpha', 0.2)
+            elif len(y_entry) >= 4:
+                y_pos, width, color, alpha = y_entry[:4]
+            
+            # Draw the line
+            ax.axhline(y=y_pos, color=color, linestyle='-', linewidth=1.5,
+                    label="_nolegend_")
+            
+            # Add shaded area if width > 0
+            if width > 0:
+                ax.axhspan(y_pos - width, y_pos + width, alpha=alpha,
+                        color=color, label=f'y = {y_pos}±{width}')
+
     # Beschränkt den Graphen auf y_max bzw. y_min
     if 'y_max' in params and params['y_max'] is not None:
         ax.set_ylim(top=params['y_max'])
